@@ -9,10 +9,29 @@ kaboom({
 // ########################### SPRITE ################################
 //
 loadRoot('https://i.imgur.com/')
-// loadSprite('mario','wunHyEq.png')
+// loadSprite('astronaut','wunHyEq.png')
 loadSprite('block','M6rwarW.png')
 loadSprite('gun', '12IgStq.png')
 loadSprite('enemy','KPO3fR9.png')
+
+//Player
+loadSprite("astro", "Q0FRlty.png", {
+	// The image contains 9 frames layed out horizontally, slice it into individual frames
+	sliceX: 15,
+	// Define animations
+	anims: {
+		"idle": 0,
+
+		"run": {
+			from: 0,
+			to: 3,
+			speed: 10,
+			//loop: true,
+		},
+		// This animation only has 1 frame
+		"jump": 8,
+	},
+})
 
 
 //image de fond :
@@ -54,13 +73,13 @@ loadSprite('bg', 'WtSop5r.png')
 
 scene("game",()=>{
 
-    // ############## FULL SCREEN #############
+	// ############## FULL SCREEN #############
 
-    onKeyPress("f", (c) => {
-        setFullscreen(!isFullscreen())
-    })
+	onKeyPress("f", (c) => {
+		setFullscreen(!isFullscreen())
+	})
 
-    // ##########################################
+	// ##########################################
 
 
 	const imgLevelUn = add([
@@ -91,6 +110,7 @@ scene("game",()=>{
 				"=": () => [
 					sprite("block"),
 					area(),
+					body({ isStatic: true }),
 				],
 				"/": () => [
 					sprite("gun"),
@@ -107,9 +127,69 @@ scene("game",()=>{
 		}
 	)
 
-	add([
-		sprite('block')
+	// ######################## PLAYER #########################
+
+	const SPEED = 120
+	const JUMP_FORCE = 240
+	setGravity(640)
+
+	const player = add([
+		sprite('astro'),
+		scale(5),
+		pos(0,0),
+		area(),
+		body(),
+		setGravity(400),
 	])
+
+	//plateform
+
+	add([
+		rect(width(), 24),
+		area(),
+		outline(1),
+		pos(0, height() - 24),
+		body({ isStatic: true }),
+	])
+
+
+	//movement
+
+	// Switch to "idle" or "run" animation when player hits ground
+	player.onGround(() => {
+		if (!isKeyDown("left") && !isKeyDown("right")) {
+			player.play("idle")
+		} else {
+			player.play("run")
+		}
+	})
+
+	onKeyPress("space", () => {
+		if (player.isGrounded()) {
+			player.jump(JUMP_FORCE)
+			player.play("jump")
+		}
+	})
+
+
+	onKeyDown("left", () => {
+		player.move(-SPEED, 0)
+		player.flipX = true
+		// .play() will reset to the first frame of the anim, so we want to make sure it only runs when the current animation is not "run"
+		if (player.isGrounded() && player.curAnim() !== "run") {
+			player.play("run")
+		}
+	})
+
+	onKeyDown("right", () => {
+		player.move(SPEED, 0)
+		player.flipX = false
+		if (player.isGrounded() && player.curAnim() !== "run") {
+			player.play("run")
+		}
+	})
+
+	// #########################################################
 
 
 })

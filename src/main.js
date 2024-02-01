@@ -542,11 +542,14 @@ scene("game",()=>{
 	const player = add([
 		sprite('astro'),
 		scale(5),
+		anchor("center"),
 		pos(0,0),
 		area(),
 		body(),
 		setGravity(400),
 		health(PLAYER_HEALTH),
+		z(49),
+		"player"
 	])
 
 	//plateform
@@ -597,6 +600,60 @@ scene("game",()=>{
 	})
 
 	// #########################################################
+
+
+	// ###################### GUN ##############################
+
+	const gun = add([
+		// rect(35, 8),
+		sprite("gun"),
+		scale(0.04),
+		pos(player.pos.x,player.pos.y),
+		anchor(vec2(0,0)),
+		area(),
+		rotate(0),
+		color(204, 230, 244),
+		z(50),
+		// z(49),
+		"gun"
+	])
+
+	onUpdate(() => {
+		const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
+	// 	console.log("muzzle: ", muzzlePos)
+		gun.pos = player.pos
+	// 	console.log(gun.pos)
+		gun.angle = mousePos().angle(gun.pos)
+	// 	console.log(gun.angle)
+	})
+
+	onClick((position)=> {
+
+		const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
+		spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
+		//debug.log(mousePos().angle())
+	})
+
+	function spawnBullet(bulletposX, bulletPosY, direction) {
+
+
+		add([
+			rect(25, 3),
+			pos(gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))),
+			anchor("top"),
+			color(165, 36, 34),
+			area(),
+			move(Vec2.fromAngle(gun.angle), 400),
+			z(20),
+			//layer("game"),
+			rotate(gun.angle),
+			"playerBullet",
+			"danger"
+
+		]);
+	}
+
+	// ###############################################################
 
 
 	// ######################## ENEMY #########################
@@ -665,24 +722,24 @@ scene("game",()=>{
 
 	// ################# Bullet ######################
 
-	function spawnBullet(p) {
-		if (gunDestroyed) {
-			add([
-				rect(12, 12),
-				pos(p),
-				anchor('center'),
-				area(),
-				color(300, 0, 0),
-				move(0, 400),
-				offscreen({ destroy: true }),
-				'playerBullet',
-			])
-		}
-	}
+	// function spawnBullet(p) {
+	// 	if (gunDestroyed) {
+	// 		add([
+	// 			rect(12, 12),
+	// 			pos(p),
+	// 			anchor('center'),
+	// 			area(),
+	// 			color(300, 0, 0),
+	// 			move(0, 400),
+	// 			offscreen({ destroy: true }),
+	// 			'playerBullet',
+	// 		])
+	// 	}
+	// }
 
-	onKeyPress('up', () => {
-		spawnBullet(player.pos.add(20, 20));
-	})
+	// onKeyPress('up', () => {
+	// 	spawnBullet(player.pos.add(20, 20));
+	// })
 
 	// ---------------- COLLIDE -----------------
 
@@ -706,10 +763,10 @@ scene("game",()=>{
 		console.log("touch enemy")
 	})
 
-	player.onCollide('gun', (m) => {
-		destroy(m)
-		gunDestroyed = true
-	})
+	// player.onCollide('gun', (m) => {
+	// 	destroy(m)
+	// 	gunDestroyed = true
+	// })
 
 	// ########################### SCORE #############################
 

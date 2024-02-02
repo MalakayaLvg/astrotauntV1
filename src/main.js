@@ -3,6 +3,7 @@ import kaboom from "kaboom";
 kaboom({
 
 	background: [0, 0, 0, 1],
+	scale:1.5,
 })
 
 
@@ -30,7 +31,7 @@ loadSprite("astro", "Q0FRlty.png", {
 			//loop: true,
 		},
 		// This animation only has 1 frame
-		"jump": 8,
+		"jump": 7,
 	},
 })
 
@@ -40,38 +41,37 @@ loadSprite('bg', 'WtSop5r.png')
 
 // NATAN
 
-// loadSprite('astro', 'Q0FRlty.png')
-// loadSprite('battery', 'bOX5EXQ.png')
-// loadSprite('beam', 'fUwX4Jc.png')
-// loadSprite('beamsocket', '8cT5Yhy.png')
-// loadSprite('button', 'ThnSicB.png')
-// loadSprite('crate', 'Uz51WxL.png')
-// loadSprite('crate2', 'UPq5A74.png')
-// loadSprite('droplets', 'r13H16o.png')
-// loadSprite('dust', 'P0CwElc.png')
-// loadSprite('editorblock', '8cM0Be2.png')
-// loadSprite('explosion', 'NTmk76G.png')
-// loadSprite('explosion2', 'lOrfZSj.png')
-// loadSprite('jet', 'vaegfFS.png')
-// loadSprite('jet2', 'qtajq2q.png')
-// loadSprite('jet3', 'jtSXoc2.png')
-// loadSprite('messagebox', 'gUvvVXW.png')
-// loadSprite('pit', 'DFAfOnt.png')
-// loadSprite('pod', 'fnH45mO.png')
-// loadSprite('pod1', 'ylskanF.png')
-// loadSprite('portrait', 'gXUjnJr.png')
-// loadSprite('powerlight', 'uq3DEGN.png')
-// loadSprite('rocks', 'QzTqlac.png')
-// loadSprite('shipbits', 'oD1VIw6.png')
-// loadSprite('smoke', 'sjIQbV0.png')
-// loadSprite('socket', 'RhSljhH.png')
-// loadSprite('thinfont', 'eSsbWN1.png')
-// loadSprite('timerswitch', 'UGMGRMu.png')
+loadSprite('beam', 'fUwX4Jc.png')
+loadSprite('crate', 'Uz51WxL.png')
+loadSprite('crate2', 'UPq5A74.png')
+loadSprite('droplets', 'r13H16o.png')
+loadSprite('editorblock', '8cM0Be2.png')
+loadSprite('jet', 'vaegfFS.png')
+loadSprite('jet2', 'qtajq2q.png')
+loadSprite('jet3', 'jtSXoc2.png')
+loadSprite('pod1', 'ylskanF.png')
+loadSprite('portrait', 'gXUjnJr.png')
 
-loadSprite('map', 'd87auk2.png',{
-	sliceX:20,
-	sliceY:20,
-})
+
+
+/////////////////////////////SPRITE AVEC PLUSIEURS TILES///////////////////
+
+loadSprite('battery', 'bOX5EXQ.png',{sliceX: 4, sliceY: 1,})
+loadSprite('explosion', 'NTmk76G.png', {sliceX: 17, sliceY: 1,})
+loadSprite('explosion2', 'lOrfZSj.png',{sliceX: 17, sliceY: 1,})
+loadSprite('smoke', 'sjIQbV0.png',{sliceX: 11, sliceY: 1,})
+loadSprite('timerswitch', 'UGMGRMu.png',{sliceX: 5, sliceY: 1,})
+loadSprite('button', 'ThnSicB.png',{sliceX: 2, sliceY: 1,})
+loadSprite('powerlight', 'uq3DEGN.png',{sliceX: 2, sliceY: 1,})
+loadSprite('shipbits', 'oD1VIw6.png',{sliceX: 5, sliceY: 1,})
+loadSprite('pit', 'DFAfOnt.png', {sliceX: 2, sliceY: 3,})
+loadSprite('pod', 'fnH45mO.png', {sliceX: 4, sliceY: 1,})
+loadSprite('messagebox', 'gUvvVXW.png', {sliceX: 3, sliceY: 3,})
+loadSprite('rocks', 'QzTqlac.png', {sliceX: 8, sliceY: 3,})
+loadSprite('map', 'd87auk2.png',{sliceX:20, sliceY:20,})
+
+
+
 // ########################### SCENE GAME ################################
 
 scene("game",()=>{
@@ -92,446 +92,664 @@ scene("game",()=>{
 	const level1 = [
 		addLevel(
 			[
-				'           a      h                              ',
-				'            b      i                             ',
-				'             c      j                        ',
-				'              d      k                           ',
-				'               e      l                          ',
-				'                r      m                         ',
-				'                f       n                       ',
-				'         /       g                             ',
-				'        ==        ===                         ',
-				'                                               ',
-				'                               g             ',
-				'====================  = =  ====================',
 
+				////////////////FOND BLEU ///////////////////////
+
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+				'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+///////////////////////////////////////////////////////////////////////|
 
 			],{
 				tileWidth: 36,
 				tileHeight: 36,
 				tiles: {
 
-					/////////////// /FOND BLEU ///////////////////////
 
-					"a": () => [sprite("map", {frame:0}),scale(5)],
-					"b": () => [sprite("map", {frame:1}),scale(5)],
-					"c": () => [sprite("map", {frame:2}),scale(5)],
-					"d": () => [sprite("map", {frame:3}),scale(5)],
-					"e": () => [sprite("map", {frame:4}),scale(5)],
-					"f": () => [sprite("map", {frame:5}),scale(5)],
-					"g": () => [sprite("map", {frame:6}),scale(5)],
-					"h": () => [sprite("map", {frame:7}),scale(5)],
-					"i": () => [sprite("map", {frame:8}),scale(5)],
-					"j": () => [sprite("map", {frame:9}),scale(5)],
-					"k": () => [sprite("map", {frame:10}),scale(5)],
-					"l": () => [sprite("map", {frame:11}),scale(5)],
-					"m": () => [sprite("map", {frame:12}),scale(5)],
-					"n": () => [sprite("map", {frame:20}),scale(5)],
-					"o": () => [sprite("map", {frame:21}),scale(5)],
-					"p": () => [sprite("map", {frame:22}),scale(5)],
-					"q": () => [sprite("map", {frame:23}),scale(5)],
-					"r": () => [sprite("map", {frame:24}),scale(5)],
-					"s": () => [sprite("map", {frame:25}),scale(5)],
-					"t": () => [sprite("map", {frame:26}),scale(5)],
-					"u": () => [sprite("map", {frame:27}),scale(5)],
-					"v": () => [sprite("map", {frame:28}),scale(5)],
-					"w": () => [sprite("map", {frame:29}),scale(5)],
-					"x": () => [sprite("map", {frame:30}),scale(5)],
-					"y": () => [sprite("map", {frame:31}),scale(5)],
-					"!": () => [sprite("map", {frame:40}),scale(5)],
-					":": () => [sprite("map", {frame:41}),scale(5)],
-					";": () => [sprite("map", {frame:42}),scale(5)],
-					"*": () => [sprite("map", {frame:43}),scale(5)],
-					"ù": () => [sprite("map", {frame:44}),scale(5)],
-					"$": () => [sprite("map", {frame:45}),scale(5)],
+
+					"a": () => [sprite("map", {frame:0}),scale(4.5)],
+					"b": () => [sprite("map", {frame:1}),scale(4.5)],
+					"c": () => [sprite("map", {frame:2}),scale(4.5)],
+					"d": () => [sprite("map", {frame:3}),scale(4.5)],
+					"e": () => [sprite("map", {frame:4}),scale(4.5)],
+					"f": () => [sprite("map", {frame:5}),scale(4.5)],
+					"g": () => [sprite("map", {frame:6}),scale(4.5)],
+					"h": () => [sprite("map", {frame:7}),scale(4.5)],
+					"i": () => [sprite("map", {frame:8}),scale(4.5)],
+					"j": () => [sprite("map", {frame:9}),scale(4.5)],
+					"k": () => [sprite("map", {frame:10}),scale(4.5)],
+					"l": () => [sprite("map", {frame:11}),scale(4.5)],
+					"m": () => [sprite("map", {frame:12}),scale(4.5)],
+					"n": () => [sprite("map", {frame:20}),scale(4.5)],
+					"o": () => [sprite("map", {frame:21}),scale(4.5)],
+					"p": () => [sprite("map", {frame:22}),scale(4.5)],
+					"q": () => [sprite("map", {frame:23}),scale(4.5)],
+					"r": () => [sprite("map", {frame:24}),scale(4.5)],
+					"s": () => [sprite("map", {frame:25}),scale(4.5)],
+					"t": () => [sprite("map", {frame:26}),scale(4.5)],
+					"u": () => [sprite("map", {frame:27}),scale(4.5)],
+					"v": () => [sprite("map", {frame:28}),scale(4.5)],
+					"w": () => [sprite("map", {frame:29}),scale(4.5)],
+					"x": () => [sprite("map", {frame:30}),scale(4.5)],
+					"y": () => [sprite("map", {frame:31}),scale(4.5)],
+					"!": () => [sprite("map", {frame:40}),scale(4.5)],
+					":": () => [sprite("map", {frame:41}),scale(4.5)],
+					";": () => [sprite("map", {frame:42}),scale(4.5)],
+					"*": () => [sprite("map", {frame:43}),scale(4.5)],
+					"ù": () => [sprite("map", {frame:44}),scale(4.5)],
+					"$": () => [sprite("map", {frame:45}),scale(4.5)],
 
 
 					"/": () => [
 						sprite("gun"),
 						area(),
 						body({ isStatic: true }),
-						scale(1),
+						scale(4.5),
 						'gun',]
 				},
 			}),
 		addLevel(
 			[
-				'                                           ',
-				'                                               ',
-				'                                           ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'a      abcdefgh                         g             ',
-				'====================  = =  ====================',
 
+				//////////////// PLATEFORM ///////////////////////
+
+				'o                                                    p',
+				'o                                                    p',
+				'o                                                    p',
+				'o ffffff                  ffff                      p',
+				'o                                                   p',
+				'o        fffff                                      p',
+				'o                                                   p',
+				'o                                                   p',
+				'o                                                   p',
+				'o                    fffffffffff                    p',
+				'o        ffffffff                                   p',
+				'o                                                   p',
+				'o ff                                        ffffffffp',
+				'o                                                   p',
+				'o      fff                                          p',
+				'o                fffffffff                          p',
+				'o                                                   p',
+				'o           ff                                      p',
+				'o                                                   p',
+				'o  fffff                                            p',
+				'o                                                   p',
+				'o        fffffff                                    p',
+				'o                   fffffff                         p',
+				'o                             fffff       ff        p',
+				'o                                                   p',
+				'o                                               ffffp',
+				'o                                                   p',
+				'fffffffffffffffff     fffffff      ffffffffff       p',
+//////////////////////////////////////////////////////////////////////|
 
 			],{
 				tileWidth: 36,
 				tileHeight: 36,
 				tiles: {
 
-					//////////////// PLATEFORM ///////////////////////
 
-					"a": () => [sprite("map", {frame:33}),scale(5), area(),body({isStatic:true}) ],
-					"b": () => [sprite("map", {frame:34}),scale(5), area(),body({isStatic:true}) ],
-					"c": () => [sprite("map", {frame:52}),scale(5), area(),body({isStatic:true}) ],
-					"d": () => [sprite("map", {frame:53}),scale(5), area(),body({isStatic:true}) ],
-					"e": () => [sprite("map", {frame:54}),scale(5), area(),body({isStatic:true}) ],
-					"f": () => [sprite("map", {frame:180}),scale(5), area(),body({isStatic:true}) ],
-					"g": () => [sprite("map", {frame:181}),scale(5), area(),body({isStatic:true}) ],
-					"h": () => [sprite("map", {frame:182}),scale(5), area(),body({isStatic:true}) ],
-					"i": () => [sprite("map", {frame:183}),scale(5), area(),body({isStatic:true}) ],
-					"j": () => [sprite("map", {frame:184}),scale(5), area(),body({isStatic:true}) ],
-					"k": () => [sprite("map", {frame:185}),scale(5), area(),body({isStatic:true}) ],
-					"l": () => [sprite("map", {frame:186}),scale(5), area(),body({isStatic:true}) ],
-					"m": () => [sprite("map", {frame:187}),scale(5), area(),body({isStatic:true}) ],
-					"n": () => [sprite("map", {frame:188}),scale(5), area(),body({isStatic:true}) ],
-					"o": () => [sprite("map", {frame:189}),scale(5), area(),body({isStatic:true}) ],
-					"p": () => [sprite("map", {frame:190}),scale(5), area(),body({isStatic:true}) ],
+					"a": () => [sprite("map", {frame:33}),scale(4.5), area(),body({isStatic:true}) ],
+					"b": () => [sprite("map", {frame:34}),scale(4.5), area(),body({isStatic:true}) ],
+					"c": () => [sprite("map", {frame:52}),scale(4.5), area(),body({isStatic:true}) ],
+					"d": () => [sprite("map", {frame:53}),scale(4.5), area(),body({isStatic:true}) ],
+					"e": () => [sprite("map", {frame:54}),scale(4.5), area(),body({isStatic:true}) ],
+					"f": () => [sprite("map", {frame:180}),scale(4.5), area(),body({isStatic:true}) ],
+					"g": () => [sprite("map", {frame:181}),scale(4.5), area(),body({isStatic:true}) ],
+					"h": () => [sprite("map", {frame:182}),scale(4.5), area(),body({isStatic:true}) ],
+					"i": () => [sprite("map", {frame:183}),scale(4.5), area(),body({isStatic:true}) ],
+					"j": () => [sprite("map", {frame:184}),scale(4.5), area(),body({isStatic:true}) ],
+					"k": () => [sprite("map", {frame:185}),scale(4.5), area(),body({isStatic:true}) ],
+					"l": () => [sprite("map", {frame:186}),scale(4.5), area(),body({isStatic:true}) ],
+					"m": () => [sprite("map", {frame:187}),scale(4.5), area(),body({isStatic:true}) ],
+					"n": () => [sprite("map", {frame:188}),scale(4.5), area(),body({isStatic:true}) ],
+					"o": () => [sprite("map", {frame:189}),scale(4.5), area(),body({isStatic:true}) ],
+					"p": () => [sprite("map", {frame:190}),scale(4.5), area(),body({isStatic:true}) ],
 				},
 			}),
+
 		addLevel(
 			[
-				'                              a                              ',
-				'                           b                            ',
-				'                          c                        ',
-				'                        d                          ',
-				'                      e                                ',
-				'                     r                        ',
-				'                                j                      ',
-				'         /       g                             ',
-				'        ==        ===                         ',
-				'                                               ',
-				'                               g             ',
-				'====================  = =  ====================',
 
+				///////////////  DECORATION BLEU  ///////////////////////
+
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                       fffffffffff                 ',
+				'         ffffffff                                  ',
+				'                                                   ',
+				'  ff                                     ffffffffff',
+				'                     hi                            ',
+				'       fff           pq                            ',
+				'                                                   ',
+				'                                                   ',
+				'            ff                                     ',
+				'                                                   ',
+				'   fffff                                           ',
+				'                                                   ',
+				'   o     fffffff                                   ',
+				'   o oo               fffffff                      ',
+				'                                fffff    ff        ',
+				'   defg                                            ',
+				'   klmn                                       fffff',
+				'   stuv                                             ',
+				'                          fffffff      fffffff      ',
+/////////////////////////////////////////////////////////////////////|
 
 			],{
 				tileWidth: 36,
 				tileHeight: 36,
 				tiles: {
 
-					///////////////  DECORATION BLEU  ///////////////////////
 
-					"a": () => [sprite("map", {frame:13}),scale(5)],
-					"b": () => [sprite("map", {frame:14}),scale(5)],
-					"c": () => [sprite("map", {frame:15}),scale(5)],
-					"d": () => [sprite("map", {frame:16}),scale(5)],
-					"e": () => [sprite("map", {frame:17}),scale(5)],
-					"f": () => [sprite("map", {frame:18}),scale(5)],
-					"g": () => [sprite("map", {frame:19}),scale(5)],
-					"h": () => [sprite("map", {frame:33}),scale(5)],
-					"i": () => [sprite("map", {frame:34}),scale(5)],
-					"j": () => [sprite("map", {frame:35}),scale(5)],
-					"k": () => [sprite("map", {frame:36}),scale(5)],
-					"l": () => [sprite("map", {frame:37}),scale(5)],
-					"m": () => [sprite("map", {frame:38}),scale(5)],
-					"n": () => [sprite("map", {frame:39}),scale(5)],
-					"o": () => [sprite("map", {frame:52}),scale(5)],
-					"p": () => [sprite("map", {frame:53}),scale(5)],
-					"q": () => [sprite("map", {frame:54}),scale(5)],
-					"r": () => [sprite("map", {frame:55}),scale(5)],
-					"s": () => [sprite("map", {frame:56}),scale(5)],
-					"t": () => [sprite("map", {frame:57}),scale(5)],
-					"u": () => [sprite("map", {frame:58}),scale(5)],
-					"v": () => [sprite("map", {frame:59}),scale(5)],
+					"a": () => [sprite("map", {frame:13}),scale(4.5)],
+					"b": () => [sprite("map", {frame:14}),scale(4.5)],
+					"c": () => [sprite("map", {frame:15}),scale(4.5)],
+					"d": () => [sprite("map", {frame:16}),scale(4.5)],
+					"e": () => [sprite("map", {frame:17}),scale(4.5)],
+					"f": () => [sprite("map", {frame:18}),scale(4.5)],
+					"g": () => [sprite("map", {frame:19}),scale(4.5)],
+					"h": () => [sprite("map", {frame:33}),scale(4.5)],
+					"i": () => [sprite("map", {frame:34}),scale(4.5)],
+					"j": () => [sprite("map", {frame:35}),scale(4.5)],
+					"k": () => [sprite("map", {frame:36}),scale(4.5)],
+					"l": () => [sprite("map", {frame:37}),scale(4.5)],
+					"m": () => [sprite("map", {frame:38}),scale(4.5)],
+					"n": () => [sprite("map", {frame:39}),scale(4.5)],
+					"o": () => [sprite("map", {frame:52}),scale(4.5)],
+					"p": () => [sprite("map", {frame:53}),scale(4.5)],
+					"q": () => [sprite("map", {frame:54}),scale(4.5)],
+					"r": () => [sprite("map", {frame:55}),scale(4.5)],
+					"s": () => [sprite("map", {frame:56}),scale(4.5)],
+					"t": () => [sprite("map", {frame:57}),scale(4.5)],
+					"u": () => [sprite("map", {frame:58}),scale(4.5)],
+					"v": () => [sprite("map", {frame:59}),scale(4.5)],
+				},
+			}),addLevel(
+			[
+
+				///////////////  ACCESSOIRE BLEU  ///////////////////////
+
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                     a                             ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+				'                                                   ',
+/////////////////////////////////////////////////////////////////////|
+
+			],{
+				tileWidth: 36,
+				tileHeight: 36,
+				tiles: {
+
+
+					"a": () => [sprite("battery", {frame:1}),scale(4.5)],
+					"b": () => [sprite("explosion", {frame:14}),scale(4.5)],
+					"c": () => [sprite("explosion2", {frame:15}),scale(4.5)],
+					"d": () => [sprite("smoke", {frame:16}),scale(4.5)],
+					"e": () => [sprite("timerswitch", {frame:17}),scale(4.5)],
+					"f": () => [sprite("button", {frame:18}),scale(4.5)],
+					"g": () => [sprite("powerlight", {frame:19}),scale(4.5)],
+					"h": () => [sprite("shipbits", {frame:33}),scale(4.5)],
+					"i": () => [sprite("pit", {frame:34}),scale(4.5)],
+					"j": () => [sprite("pod", {frame:35}),scale(4.5)],
+					"k": () => [sprite("messagebox", {frame:36}),scale(4.5)],
+					"l": () => [sprite("rocks", {frame:37}),scale(4.5)],
+					"m": () => [sprite("beam", {frame:38}),scale(4.5)],
+					"n": () => [sprite("crate", {frame:39}),scale(4.5)],
+					"o": () => [sprite("crate2", {frame:52}),scale(4.5)],
+					"p": () => [sprite("droplets", {frame:53}),scale(4.5)],
+					"q": () => [sprite("editorblock", {frame:54}),scale(4.5)],
+					"r": () => [sprite("jet", {frame:55}),scale(4.5)],
+					"s": () => [sprite("jet2", {frame:56}),scale(4.5)],
+					"t": () => [sprite("jet3", {frame:57}),scale(4.5)],
+					"u": () => [sprite("pod1", {frame:58}),scale(4.5)],
+					"v": () => [sprite("portrait", {frame:59}),scale(4.5)],
 				},
 			})
+
 	]
-	const level2 = [
-		addLevel(
-			[
-				'           a      h                              ',
-				'            b      i                             ',
-				'             c      j                        ',
-				'              d      k                           ',
-				'               e      l                          ',
-				'                r      m                         ',
-				'                f       n                       ',
-				'         /       g                             ',
-				'        ==        ===                         ',
-				'                                               ',
-				'                               g             ',
-				'====================  = =  ====================',
 
+//     const level2 = [
+//         addLevel(
+//             [
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+// ///////////////////////////////////////////////////////////////////////|
+//
+//             ],{
+//                 tileWidth: 36,
+//                 tileHeight: 36,
+//                 tiles: {
+//
+//                     /////////////// /FOND ORANGE ///////////////////////
+//
+//                     "a": () => [sprite("map", {frame:60}),scale(4.5)],
+//                     "b": () => [sprite("map", {frame:61}),scale(4.5)],
+//                     "c": () => [sprite("map", {frame:62}),scale(4.5)],
+//                     "d": () => [sprite("map", {frame:63}),scale(4.5)],
+//                     "e": () => [sprite("map", {frame:64}),scale(4.5)],
+//                     "f": () => [sprite("map", {frame:65}),scale(4.5)],
+//                     "g": () => [sprite("map", {frame:66}),scale(4.5)],
+//                     "h": () => [sprite("map", {frame:67}),scale(4.5)],
+//                     "i": () => [sprite("map", {frame:68}),scale(4.5)],
+//                     "j": () => [sprite("map", {frame:69}),scale(4.5)],
+//                     "k": () => [sprite("map", {frame:70}),scale(4.5)],
+//                     "l": () => [sprite("map", {frame:71}),scale(4.5)],
+//                     "m": () => [sprite("map", {frame:72}),scale(4.5)],
+//                     "n": () => [sprite("map", {frame:80}),scale(4.5)],
+//                     "o": () => [sprite("map", {frame:81}),scale(4.5)],
+//                     "p": () => [sprite("map", {frame:82}),scale(4.5)],
+//                     "q": () => [sprite("map", {frame:83}),scale(4.5)],
+//                     "r": () => [sprite("map", {frame:84}),scale(4.5)],
+//                     "s": () => [sprite("map", {frame:85}),scale(4.5)],
+//                     "t": () => [sprite("map", {frame:86}),scale(4.5)],
+//                     "u": () => [sprite("map", {frame:87}),scale(4.5)],
+//                     "v": () => [sprite("map", {frame:88}),scale(4.5)],
+//                     "w": () => [sprite("map", {frame:89}),scale(4.5)],
+//                     "x": () => [sprite("map", {frame:90}),scale(4.5)],
+//                     "y": () => [sprite("map", {frame:91}),scale(4.5)],
+//                 },
+//             }),
+//         addLevel(
+//             [
+//                 'o                                                   p',
+//                 'o                                                   p',
+//                 'o                                                   p',
+//                 'o ffffff                  ffff                      p',
+//                 'o                                                   p',
+//                 'o        fffff                                      p',
+//                 'o                                                   p',
+//                 'o                                                   p',
+//                 'o                                                   p',
+//                 'o                    fffffffffff                    p',
+//                 'o        ffffffff                                   p',
+//                 'o                                                   p',
+//                 'o ff                                        ffffffffp',
+//                 'o                                                   p',
+//                 'o      fff                                          p',
+//                 'o                fffffffff                          p',
+//                 'o                                                   p',
+//                 'o           ff                                      p',
+//                 'o                                                   p',
+//                 'o  fffff                                            p',
+//                 'o                                                   p',
+//                 'o        fffffff                                    p',
+//                 'o                   fffffff                         p',
+//                 'o                             fffff       ff        p',
+//                 'o                                                   p',
+//                 'o                                               ffffp',
+//                 'o                                                   p',
+//                 'fffffffffffffffff     fffffff      ffffffffff       p',
+// //////////////////////////////////////////////////////////////////////|
+//
+//             ],{
+//                 tileWidth: 36,
+//                 tileHeight: 36,
+//                 tiles: {
+//
+//                     //////////////// PLATEFORM ORANGE ///////////////////////
+//
+//                     "a": () => [sprite("map", {frame:93}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "b": () => [sprite("map", {frame:94}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "c": () => [sprite("map", {frame:112}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "d": () => [sprite("map", {frame:113}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "e": () => [sprite("map", {frame:114}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "f": () => [sprite("map", {frame:200}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "g": () => [sprite("map", {frame:201}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "h": () => [sprite("map", {frame:202}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "i": () => [sprite("map", {frame:203}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "j": () => [sprite("map", {frame:204}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "k": () => [sprite("map", {frame:205}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "l": () => [sprite("map", {frame:206}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "m": () => [sprite("map", {frame:207}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "n": () => [sprite("map", {frame:208}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "o": () => [sprite("map", {frame:209}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "p": () => [sprite("map", {frame:210}),scale(4.5), area(),body({isStatic:true}) ],
+//                 },
+//             }),
+//         addLevel(
+//             [
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                     hi                            ',
+//                 '                     pq                            ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '   o                                               ',
+//                 '   o oo                                            ',
+//                 '                                                   ',
+//                 '   defg                                            ',
+//                 '   klmn                                            ',
+//                 '   stuv                                             ',
+//                 '                                                    ',
+// /////////////////////////////////////////////////////////////////////|
+//
+//
+//             ],{
+//                 tileWidth: 36,
+//                 tileHeight: 36,
+//                 tiles: {
+//
+//                     ///////////////  DECORATION ORANGE   ///////////////////////
+//
+//                     "a": () => [sprite("map", {frame:73}),scale(4.5)],
+//                     "b": () => [sprite("map", {frame:74}),scale(4.5)],
+//                     "c": () => [sprite("map", {frame:75}),scale(4.5)],
+//                     "d": () => [sprite("map", {frame:76}),scale(4.5)],
+//                     "e": () => [sprite("map", {frame:77}),scale(4.5)],
+//                     "f": () => [sprite("map", {frame:78}),scale(4.5)],
+//                     "g": () => [sprite("map", {frame:79}),scale(4.5)],
+//                     "h": () => [sprite("map", {frame:93}),scale(4.5)],
+//                     "i": () => [sprite("map", {frame:94}),scale(4.5)],
+//                     "j": () => [sprite("map", {frame:95}),scale(4.5)],
+//                     "k": () => [sprite("map", {frame:96}),scale(4.5)],
+//                     "l": () => [sprite("map", {frame:97}),scale(4.5)],
+//                     "m": () => [sprite("map", {frame:98}),scale(4.5)],
+//                     "n": () => [sprite("map", {frame:99}),scale(4.5)],
+//                     "o": () => [sprite("map", {frame:112}),scale(4.5)],
+//                     "p": () => [sprite("map", {frame:113}),scale(4.5)],
+//                     "q": () => [sprite("map", {frame:114}),scale(4.5)],
+//                     "r": () => [sprite("map", {frame:115}),scale(4.5)],
+//                     "s": () => [sprite("map", {frame:116}),scale(4.5)],
+//                     "t": () => [sprite("map", {frame:117}),scale(4.5)],
+//                     "u": () => [sprite("map", {frame:118}),scale(4.5)],
+//                     "v": () => [sprite("map", {frame:119}),scale(4.5)],
+//                 },
+//             })
+//     ]
 
-			],{
-				tileWidth: 36,
-				tileHeight: 36,
-				tiles: {
-
-					/////////////// /FOND ORANGE ///////////////////////
-
-					"a": () => [sprite("map", {frame:60}),scale(5)],
-					"b": () => [sprite("map", {frame:61}),scale(5)],
-					"c": () => [sprite("map", {frame:62}),scale(5)],
-					"d": () => [sprite("map", {frame:63}),scale(5)],
-					"e": () => [sprite("map", {frame:64}),scale(5)],
-					"f": () => [sprite("map", {frame:65}),scale(5)],
-					"g": () => [sprite("map", {frame:66}),scale(5)],
-					"h": () => [sprite("map", {frame:67}),scale(5)],
-					"i": () => [sprite("map", {frame:68}),scale(5)],
-					"j": () => [sprite("map", {frame:69}),scale(5)],
-					"k": () => [sprite("map", {frame:70}),scale(5)],
-					"l": () => [sprite("map", {frame:71}),scale(5)],
-					"m": () => [sprite("map", {frame:72}),scale(5)],
-					"n": () => [sprite("map", {frame:80}),scale(5)],
-					"o": () => [sprite("map", {frame:81}),scale(5)],
-					"p": () => [sprite("map", {frame:82}),scale(5)],
-					"q": () => [sprite("map", {frame:83}),scale(5)],
-					"r": () => [sprite("map", {frame:84}),scale(5)],
-					"s": () => [sprite("map", {frame:85}),scale(5)],
-					"t": () => [sprite("map", {frame:86}),scale(5)],
-					"u": () => [sprite("map", {frame:87}),scale(5)],
-					"v": () => [sprite("map", {frame:88}),scale(5)],
-					"w": () => [sprite("map", {frame:89}),scale(5)],
-					"x": () => [sprite("map", {frame:90}),scale(5)],
-					"y": () => [sprite("map", {frame:91}),scale(5)],
-				},
-			}),
-		addLevel(
-			[
-				'                                           ',
-				'                                               ',
-				'                                           ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'a      abcdefgh                         g             ',
-				'====================  = =  ====================',
-
-
-			],{
-				tileWidth: 36,
-				tileHeight: 36,
-				tiles: {
-
-					//////////////// PLATEFORM ORANGE ///////////////////////
-
-					"a": () => [sprite("map", {frame:93}),scale(5), area(),body({isStatic:true}) ],
-					"b": () => [sprite("map", {frame:94}),scale(5), area(),body({isStatic:true}) ],
-					"c": () => [sprite("map", {frame:112}),scale(5), area(),body({isStatic:true}) ],
-					"d": () => [sprite("map", {frame:113}),scale(5), area(),body({isStatic:true}) ],
-					"e": () => [sprite("map", {frame:114}),scale(5), area(),body({isStatic:true}) ],
-					"f": () => [sprite("map", {frame:200}),scale(5), area(),body({isStatic:true}) ],
-					"g": () => [sprite("map", {frame:201}),scale(5), area(),body({isStatic:true}) ],
-					"h": () => [sprite("map", {frame:202}),scale(5), area(),body({isStatic:true}) ],
-					"i": () => [sprite("map", {frame:203}),scale(5), area(),body({isStatic:true}) ],
-					"j": () => [sprite("map", {frame:204}),scale(5), area(),body({isStatic:true}) ],
-					"k": () => [sprite("map", {frame:205}),scale(5), area(),body({isStatic:true}) ],
-					"l": () => [sprite("map", {frame:206}),scale(5), area(),body({isStatic:true}) ],
-					"m": () => [sprite("map", {frame:207}),scale(5), area(),body({isStatic:true}) ],
-					"n": () => [sprite("map", {frame:208}),scale(5), area(),body({isStatic:true}) ],
-					"o": () => [sprite("map", {frame:209}),scale(5), area(),body({isStatic:true}) ],
-					"p": () => [sprite("map", {frame:210}),scale(5), area(),body({isStatic:true}) ],
-				},
-			}),
-		addLevel(
-			[
-				'                              a                              ',
-				'                           b                            ',
-				'                          c                        ',
-				'                        d                          ',
-				'                      e                                ',
-				'                     r                        ',
-				'                                j                      ',
-				'         /       g                             ',
-				'        ==        ===                         ',
-				'                                               ',
-				'                               g             ',
-				'====================  = =  ====================',
-
-
-			],{
-				tileWidth: 36,
-				tileHeight: 36,
-				tiles: {
-
-					///////////////  DECORATION ORANGE   ///////////////////////
-
-					"a": () => [sprite("map", {frame:73}),scale(5)],
-					"b": () => [sprite("map", {frame:74}),scale(5)],
-					"c": () => [sprite("map", {frame:75}),scale(5)],
-					"d": () => [sprite("map", {frame:76}),scale(5)],
-					"e": () => [sprite("map", {frame:77}),scale(5)],
-					"f": () => [sprite("map", {frame:78}),scale(5)],
-					"g": () => [sprite("map", {frame:79}),scale(5)],
-					"h": () => [sprite("map", {frame:93}),scale(5)],
-					"i": () => [sprite("map", {frame:94}),scale(5)],
-					"j": () => [sprite("map", {frame:95}),scale(5)],
-					"k": () => [sprite("map", {frame:96}),scale(5)],
-					"l": () => [sprite("map", {frame:97}),scale(5)],
-					"m": () => [sprite("map", {frame:98}),scale(5)],
-					"n": () => [sprite("map", {frame:99}),scale(5)],
-					"o": () => [sprite("map", {frame:112}),scale(5)],
-					"p": () => [sprite("map", {frame:113}),scale(5)],
-					"q": () => [sprite("map", {frame:114}),scale(5)],
-					"r": () => [sprite("map", {frame:115}),scale(5)],
-					"s": () => [sprite("map", {frame:116}),scale(5)],
-					"t": () => [sprite("map", {frame:117}),scale(5)],
-					"u": () => [sprite("map", {frame:118}),scale(5)],
-					"v": () => [sprite("map", {frame:119}),scale(5)],
-				},
-			})
-	]
-	const level3 = [
-		addLevel(
-			[
-				'           a      h                              ',
-				'            b      i                             ',
-				'             c      j                        ',
-				'              d      k                           ',
-				'               e      l                          ',
-				'                r      m                         ',
-				'                f       n                       ',
-				'         /       g                             ',
-				'        ==        ===                         ',
-				'                                               ',
-				'                               g             ',
-				'====================  = =  ====================',
-
-
-			],{
-				tileWidth: 36,
-				tileHeight: 36,
-				tiles: {
-
-					/////////////// /FOND VERT ///////////////////////
-
-					"a": () => [sprite("map", {frame:120}),scale(5)],
-					"b": () => [sprite("map", {frame:121}),scale(5)],
-					"c": () => [sprite("map", {frame:122}),scale(5)],
-					"d": () => [sprite("map", {frame:123}),scale(5)],
-					"e": () => [sprite("map", {frame:124}),scale(5)],
-					"f": () => [sprite("map", {frame:125}),scale(5)],
-					"g": () => [sprite("map", {frame:126}),scale(5)],
-					"h": () => [sprite("map", {frame:127}),scale(5)],
-					"i": () => [sprite("map", {frame:128}),scale(5)],
-					"j": () => [sprite("map", {frame:129}),scale(5)],
-					"k": () => [sprite("map", {frame:130}),scale(5)],
-					"l": () => [sprite("map", {frame:131}),scale(5)],
-					"m": () => [sprite("map", {frame:132}),scale(5)],
-					"n": () => [sprite("map", {frame:140}),scale(5)],
-					"o": () => [sprite("map", {frame:141}),scale(5)],
-					"p": () => [sprite("map", {frame:142}),scale(5)],
-					"q": () => [sprite("map", {frame:143}),scale(5)],
-					"r": () => [sprite("map", {frame:144}),scale(5)],
-					"s": () => [sprite("map", {frame:145}),scale(5)],
-					"t": () => [sprite("map", {frame:146}),scale(5)],
-					"u": () => [sprite("map", {frame:147}),scale(5)],
-					"v": () => [sprite("map", {frame:148}),scale(5)],
-					"w": () => [sprite("map", {frame:149}),scale(5)],
-					"x": () => [sprite("map", {frame:150}),scale(5)],
-					"y": () => [sprite("map", {frame:151}),scale(5)],
-				},
-			}),
-		addLevel(
-			[
-				'                                           ',
-				'                                               ',
-				'                                           ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'                                               ',
-				'aaaaaaaaaabcdefgh                         g             ',
-				'====================  = =  ====================',
-
-
-			],{
-				tileWidth: 36,
-				tileHeight: 36,
-				tiles: {
-
-					//////////////// PLATEFORM VERT ///////////////////////
-
-					"a": () => [sprite("map", {frame:153}),scale(5), area(),body({isStatic:true}) ],
-					"b": () => [sprite("map", {frame:154}),scale(5), area(),body({isStatic:true}) ],
-					"c": () => [sprite("map", {frame:172}),scale(5), area(),body({isStatic:true}) ],
-					"d": () => [sprite("map", {frame:173}),scale(5), area(),body({isStatic:true}) ],
-					"e": () => [sprite("map", {frame:174}),scale(5), area(),body({isStatic:true}) ],
-					"f": () => [sprite("map", {frame:220}),scale(5), area(),body({isStatic:true}) ],
-					"g": () => [sprite("map", {frame:221}),scale(5), area(),body({isStatic:true}) ],
-					"h": () => [sprite("map", {frame:222}),scale(5), area(),body({isStatic:true}) ],
-					"i": () => [sprite("map", {frame:223}),scale(5), area(),body({isStatic:true}) ],
-					"j": () => [sprite("map", {frame:224}),scale(5), area(),body({isStatic:true}) ],
-					"k": () => [sprite("map", {frame:225}),scale(5), area(),body({isStatic:true}) ],
-					"l": () => [sprite("map", {frame:226}),scale(5), area(),body({isStatic:true}) ],
-					"m": () => [sprite("map", {frame:227}),scale(5), area(),body({isStatic:true}) ],
-					"n": () => [sprite("map", {frame:228}),scale(5), area(),body({isStatic:true}) ],
-					"o": () => [sprite("map", {frame:229}),scale(5), area(),body({isStatic:true}) ],
-					"p": () => [sprite("map", {frame:230}),scale(5), area(),body({isStatic:true}) ],
-				},
-			}),
-		addLevel(
-			[
-				'                              a                              ',
-				'                           b                            ',
-				'                          c                        ',
-				'                        d                          ',
-				'                      e                                ',
-				'                     r                        ',
-				'                                j                      ',
-				'         /       g                             ',
-				'        ==        ===                         ',
-				'                                               ',
-				'                               g             ',
-				'====================  = =  ====================',
-
-
-			],{
-				tileWidth: 36,
-				tileHeight: 36,
-				tiles: {
-
-					///////////////  DECORATION VERT   ///////////////////////
-
-					"a": () => [sprite("map", {frame:133}),scale(5)],
-					"b": () => [sprite("map", {frame:134}),scale(5)],
-					"c": () => [sprite("map", {frame:135}),scale(5)],
-					"d": () => [sprite("map", {frame:136}),scale(5)],
-					"e": () => [sprite("map", {frame:137}),scale(5)],
-					"f": () => [sprite("map", {frame:138}),scale(5)],
-					"g": () => [sprite("map", {frame:139}),scale(5)],
-					"h": () => [sprite("map", {frame:153}),scale(5)],
-					"i": () => [sprite("map", {frame:154}),scale(5)],
-					"j": () => [sprite("map", {frame:155}),scale(5)],
-					"k": () => [sprite("map", {frame:156}),scale(5)],
-					"l": () => [sprite("map", {frame:157}),scale(5)],
-					"m": () => [sprite("map", {frame:158}),scale(5)],
-					"n": () => [sprite("map", {frame:159}),scale(5)],
-					"o": () => [sprite("map", {frame:172}),scale(5)],
-					"p": () => [sprite("map", {frame:173}),scale(5)],
-					"q": () => [sprite("map", {frame:174}),scale(5)],
-					"r": () => [sprite("map", {frame:175}),scale(5)],
-					"s": () => [sprite("map", {frame:176}),scale(5)],
-					"t": () => [sprite("map", {frame:177}),scale(5)],
-					"u": () => [sprite("map", {frame:178}),scale(5)],
-					"v": () => [sprite("map", {frame:179}),scale(5)],
-				},
-			})
-	]
+//     const level3 = [
+//         addLevel(
+//             [
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+//                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+// ///////////////////////////////////////////////////////////////////////|
+//
+//             ],{
+//                 tileWidth: 36,
+//                 tileHeight: 36,
+//                 tiles: {
+//
+//                     /////////////// /FOND VERT ///////////////////////
+//
+//                     "a": () => [sprite("map", {frame:120}),scale(4.5)],
+//                     "b": () => [sprite("map", {frame:121}),scale(4.5)],
+//                     "c": () => [sprite("map", {frame:122}),scale(4.5)],
+//                     "d": () => [sprite("map", {frame:123}),scale(4.5)],
+//                     "e": () => [sprite("map", {frame:124}),scale(4.5)],
+//                     "f": () => [sprite("map", {frame:125}),scale(4.5)],
+//                     "g": () => [sprite("map", {frame:126}),scale(4.5)],
+//                     "h": () => [sprite("map", {frame:127}),scale(4.5)],
+//                     "i": () => [sprite("map", {frame:128}),scale(4.5)],
+//                     "j": () => [sprite("map", {frame:129}),scale(4.5)],
+//                     "k": () => [sprite("map", {frame:130}),scale(4.5)],
+//                     "l": () => [sprite("map", {frame:131}),scale(4.5)],
+//                     "m": () => [sprite("map", {frame:132}),scale(4.5)],
+//                     "n": () => [sprite("map", {frame:140}),scale(4.5)],
+//                     "o": () => [sprite("map", {frame:141}),scale(4.5)],
+//                     "p": () => [sprite("map", {frame:142}),scale(4.5)],
+//                     "q": () => [sprite("map", {frame:143}),scale(4.5)],
+//                     "r": () => [sprite("map", {frame:144}),scale(4.5)],
+//                     "s": () => [sprite("map", {frame:145}),scale(4.5)],
+//                     "t": () => [sprite("map", {frame:146}),scale(4.5)],
+//                     "u": () => [sprite("map", {frame:147}),scale(4.5)],
+//                     "v": () => [sprite("map", {frame:148}),scale(4.5)],
+//                     "w": () => [sprite("map", {frame:149}),scale(4.5)],
+//                     "x": () => [sprite("map", {frame:150}),scale(4.5)],
+//                     "y": () => [sprite("map", {frame:151}),scale(4.5)],
+//                 },
+//             }),
+//         addLevel(
+//             [
+//                 'o                                                    p',
+//                 'o                                                    p',
+//                 'o                                                    p',
+//                 'o ffffff                  ffff                      p',
+//                 'o                                                   p',
+//                 'o        fffff                                      p',
+//                 'o                                                   p',
+//                 'o                                                   p',
+//                 'o                                                   p',
+//                 'o                    fffffffffff                    p',
+//                 'o        ffffffff                                   p',
+//                 'o                                                   p',
+//                 'o ff                                        ffffffffp',
+//                 'o                                                   p',
+//                 'o      fff                                          p',
+//                 'o                fffffffff                          p',
+//                 'o                                                   p',
+//                 'o           ff                                      p',
+//                 'o                                                   p',
+//                 'o  fffff                                            p',
+//                 'o                                                   p',
+//                 'o        fffffff                                    p',
+//                 'o                   fffffff                         p',
+//                 'o                             fffff       ff        p',
+//                 'o                                                   p',
+//                 'o                                               ffffp',
+//                 'o                                                   p',
+//                 'fffffffffffffffff     fffffff      ffffffffff       p',
+// //////////////////////////////////////////////////////////////////////|
+//
+//             ],{
+//                 tileWidth: 36,
+//                 tileHeight: 36,
+//                 tiles: {
+//
+//                     //////////////// PLATEFORM VERT ///////////////////////
+//
+//                     "a": () => [sprite("map", {frame:153}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "b": () => [sprite("map", {frame:154}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "c": () => [sprite("map", {frame:172}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "d": () => [sprite("map", {frame:173}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "e": () => [sprite("map", {frame:174}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "f": () => [sprite("map", {frame:220}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "g": () => [sprite("map", {frame:221}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "h": () => [sprite("map", {frame:222}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "i": () => [sprite("map", {frame:223}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "j": () => [sprite("map", {frame:224}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "k": () => [sprite("map", {frame:225}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "l": () => [sprite("map", {frame:226}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "m": () => [sprite("map", {frame:227}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "n": () => [sprite("map", {frame:228}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "o": () => [sprite("map", {frame:229}),scale(4.5), area(),body({isStatic:true}) ],
+//                     "p": () => [sprite("map", {frame:230}),scale(4.5), area(),body({isStatic:true}) ],
+//                 },
+//             }),
+//         addLevel(
+//             [
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '                       fffffffffff                 ',
+//                 '         ffffffff                                  ',
+//                 '                                                   ',
+//                 '  ff                                     ffffffffff',
+//                 '                     hi                            ',
+//                 '       fff           pq                            ',
+//                 '                                                   ',
+//                 '                                                   ',
+//                 '            ff                                     ',
+//                 '                                                   ',
+//                 '   fffff                                           ',
+//                 '                                                   ',
+//                 '   o     fffffff                                   ',
+//                 '   o oo               fffffff                      ',
+//                 '                                fffff    ff        ',
+//                 '   defg                                            ',
+//                 '   klmn                                       fffff',
+//                 '   stuv                                             ',
+//                 '                          fffffff      fffffff      ',
+// /////////////////////////////////////////////////////////////////////|
+//
+//             ],{
+//                 tileWidth: 36,
+//                 tileHeight: 36,
+//                 tiles: {
+//
+//                     ///////////////  DECORATION VERT   ///////////////////////
+//
+//                     "a": () => [sprite("map", {frame:133}),scale(4.5)],
+//                     "b": () => [sprite("map", {frame:134}),scale(4.5)],
+//                     "c": () => [sprite("map", {frame:135}),scale(4.5)],
+//                     "d": () => [sprite("map", {frame:136}),scale(4.5)],
+//                     "e": () => [sprite("map", {frame:137}),scale(4.5)],
+//                     "f": () => [sprite("map", {frame:138}),scale(4.5)],
+//                     "g": () => [sprite("map", {frame:139}),scale(4.5)],
+//                     "h": () => [sprite("map", {frame:153}),scale(4.5)],
+//                     "i": () => [sprite("map", {frame:154}),scale(4.5)],
+//                     "j": () => [sprite("map", {frame:155}),scale(4.5)],
+//                     "k": () => [sprite("map", {frame:156}),scale(4.5)],
+//                     "l": () => [sprite("map", {frame:157}),scale(4.5)],
+//                     "m": () => [sprite("map", {frame:158}),scale(4.5)],
+//                     "n": () => [sprite("map", {frame:159}),scale(4.5)],
+//                     "o": () => [sprite("map", {frame:172}),scale(4.5)],
+//                     "p": () => [sprite("map", {frame:173}),scale(4.5)],
+//                     "q": () => [sprite("map", {frame:174}),scale(4.5)],
+//                     "r": () => [sprite("map", {frame:175}),scale(4.5)],
+//                     "s": () => [sprite("map", {frame:176}),scale(4.5)],
+//                     "t": () => [sprite("map", {frame:177}),scale(4.5)],
+//                     "u": () => [sprite("map", {frame:178}),scale(4.5)],
+//                     "v": () => [sprite("map", {frame:179}),scale(4.5)],
+//                 },
+//             })
+//     ]
 
 
 	// ######################## PLAYER #########################
 
 	const SPEED = 250
-	const JUMP_FORCE = 240
+	const JUMP_FORCE = 270
 	const ENEMY_SPEED = 60
 	const BULLET_SPEED = 200
 	let PLAYER_HEALTH = 100
@@ -543,7 +761,7 @@ scene("game",()=>{
 		sprite('astro'),
 		scale(5),
 		anchor("center"),
-		pos(0,0),
+		pos(50,700),
 		area(),
 		body(),
 		setGravity(400),
@@ -554,13 +772,13 @@ scene("game",()=>{
 
 	//plateform
 
-	add([
-		rect(width(), 24),
-		area(),
-		outline(1),
-		pos(0, height()),
-		body({ isStatic: true }),
-	])
+	// add([
+	//     rect(width(), 24),
+	//     area(),
+	//     outline(1),
+	//     pos(0, height()),
+	//     body({ isStatic: true }),
+	// ])
 
 
 	//movement
@@ -574,33 +792,83 @@ scene("game",()=>{
 		}
 	})
 
-	onKeyPress("space", () => {
+	function Dash(dashX,dashY){
+		player.moveTo((player.pos.x)+dashX,(player.pos.y)+dashY)
+	}
+
+	onKeyPress("up", () => {
 		if (player.isGrounded()) {
+			canJump = true
+			console.log(canJump)
+			console.log("player grounded")
 			player.jump(JUMP_FORCE)
 			player.play("jump")
+		} else {
+			console.log("player on air")
+			console.log(canJump)
+			if(canJump){
+				console.log("can jump")
+				Dash(0,-100)
+				canJump = false
+			} else {
+				console.log("cannon jump")
+			}
 		}
+	})
+
+	onKeyDown("up",()=>{
+		onKeyDown("right",()=>{
+			console.log("up right")
+		})
+	})
+
+	onKeyDown("down",()=>{
+		gun.angle = 90
 	})
 
 
 	onKeyDown("left", () => {
 		player.move(-SPEED, 0)
 		player.flipX = true
+		gun.angle = 180
 		// .play() will reset to the first frame of the anim, so we want to make sure it only runs when the current animation is not "run"
 		if (player.isGrounded() && player.curAnim() !== "run") {
 			player.play("run")
+		}
+		if (isMousePressed()){
+			console.log("left + mousePress")
+			if(!player.isGrounded()){
+				console.log("press left air")
+				Dash(-100,0)
+			}
 		}
 	})
 
 	onKeyDown("right", () => {
 		player.move(SPEED, 0)
 		player.flipX = false
+		gun.angle = 0
 		if (player.isGrounded() && player.curAnim() !== "run") {
 			player.play("run")
+		}
+		if (isMousePressed()){
+			console.log("left + mousePress")
+			if(!player.isGrounded()){
+				console.log("press left air")
+				Dash(100,0)
+			}
 		}
 	})
 
 	// #########################################################
 
+	//######################### CAMERA ##########################
+
+	onUpdate(()=>{
+		camPos(player.pos.x,player.pos.y)
+	})
+
+	//###########################################################
 
 	// ###################### GUN ##############################
 
@@ -619,12 +887,12 @@ scene("game",()=>{
 	])
 
 	onUpdate(() => {
-		const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-	// 	console.log("muzzle: ", muzzlePos)
+		// const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
+		// 	console.log("muzzle: ", muzzlePos)
 		gun.pos = player.pos
-	// 	console.log(gun.pos)
-		gun.angle = mousePos().angle(gun.pos)
-	// 	console.log(gun.angle)
+		// 	console.log(gun.pos)
+		// gun.angle = mousePos().angle(gun.pos)
+		// 	console.log(gun.angle)
 	})
 
 	onClick((position)=> {

@@ -2,7 +2,7 @@ import kaboom from "kaboom";
 
 kaboom({
 
-    scale:2,
+    scale:1,
     font: "upheavtt",
 })
 
@@ -94,12 +94,11 @@ scene('lose',()=>{
 
 //TODO #################### SCENE MENU ###############################
 
-
-scene("menu", () => {
-
+let isGamepadConnected = false
+scene("menu",()=>{
     add([
         sprite("bg-beginning"),
-        scale(0.500)
+        scale(1)
     ]),
 
         add([
@@ -114,10 +113,10 @@ scene("menu", () => {
             text('upheavtt'),
             area(),
             anchor("center"),
-            pos(center().x, 450),
+            pos(center().x, 500),
             outline(4),
-            text("Taper sur [ ENTRER ] pour commencer à jouer", {
-                size: 20,
+            text("Taper sur [ ENTRER ] ou appuyer sur [x] de la manette pour commencer à jouer", {
+                size: 30,
                 opacity: 0.3
             }),
         ]);
@@ -125,13 +124,49 @@ scene("menu", () => {
     onKeyRelease("enter", () => {
         go("chooseLevel");
     })
-});
+
+    // onGamepadDisconnect(()=>{
+        const textGamepadDisconnected = add([
+            text("Gamepad not found", {
+                width: width() - 30,
+                align: "center",
+                size: 25,
+            }),
+            pos(center().x,700),
+            anchor("center"),
+        ])
+    // })
+    onGamepadConnect(()=>{
+        add([
+            text("Gamepad Connected", {
+                width: width() - 180,
+                align: "center",
+            }),
+            pos(center().x,700),
+            anchor("center"),
+            color(50,205,50),
+        ])
+        isGamepadConnected = true
+        onGamepadButtonRelease("south", () => {
+            go("chooseLevel");
+        })
+    })
+
+    onUpdate(()=>{
+        if(isGamepadConnected == true) {
+            // destroy(onGamepadDisconnect)
+            destroy(textGamepadDisconnected)
+        }
+    })
+
+
+})
 
 scene("chooseLevel", () => {
 
     add([
         sprite("bg-levels"),
-        scale(0.500)
+        scale(1)
     ])
     function addButton(txt, p, f) {
 
@@ -175,14 +210,13 @@ scene("chooseLevel", () => {
     addButton("Level 3",vec2(450,400),()=> go("level3"))
 
     add([
-        text("Dans le game ",  {
-
+        text("Choisissez un niveau !",  {
             size: 40,
             outline: 4
         }),
+        pos(450,20)
     ]);
 });
-
 
 
 // ########################### SCENE GAME ################################
@@ -909,22 +943,22 @@ scene('level1',()=> {
                 tiles: {
 
 
-                    "a": () => [sprite("map", {frame:33}),scale(1), area(),body({isStatic:true}) ],
-                    "b": () => [sprite("map", {frame:34}),scale(1), area(),body({isStatic:true}) ],
+                    "a": () => [sprite("map", {frame:33}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "b": () => [sprite("map", {frame:34}),scale(1), area(),body({isStatic:true}),"block" ],
                     "c": () => [sprite("map", {frame:52}),scale(1), area(),body({isStatic:true}),"block" ],
-                    "d": () => [sprite("map", {frame:53}),scale(1), area(),body({isStatic:true}) ],
-                    "e": () => [sprite("map", {frame:54}),scale(1), area(),body({isStatic:true}) ],
+                    "d": () => [sprite("map", {frame:53}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "e": () => [sprite("map", {frame:54}),scale(1), area(),body({isStatic:true}),"block" ],
                     "f": () => [sprite("map", {frame:180}),scale(1), area(),body({isStatic:true}),"block" ],
-                    "g": () => [sprite("map", {frame:181}),scale(1), area(),body({isStatic:true}) ],
-                    "h": () => [sprite("map", {frame:182}),scale(1), area(),body({isStatic:true}) ],
-                    "i": () => [sprite("map", {frame:183}),scale(1), area(),body({isStatic:true}) ],
-                    "j": () => [sprite("map", {frame:184}),scale(1), area(),body({isStatic:true}) ],
-                    "k": () => [sprite("map", {frame:185}),scale(1), area(),body({isStatic:true}) ],
-                    "l": () => [sprite("map", {frame:186}),scale(1), area(),body({isStatic:true}) ],
-                    "m": () => [sprite("map", {frame:187}),scale(1), area(),body({isStatic:true}) ],
-                    "n": () => [sprite("map", {frame:188}),scale(1), area(),body({isStatic:true}) ],
-                    "o": () => [sprite("map", {frame:189}),scale(1), area(),body({isStatic:true}) ],
-                    "p": () => [sprite("map", {frame:190}),scale(1), area(),body({isStatic:true}) ],
+                    "g": () => [sprite("map", {frame:181}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "h": () => [sprite("map", {frame:182}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "i": () => [sprite("map", {frame:183}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "j": () => [sprite("map", {frame:184}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "k": () => [sprite("map", {frame:185}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "l": () => [sprite("map", {frame:186}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "m": () => [sprite("map", {frame:187}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "n": () => [sprite("map", {frame:188}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "o": () => [sprite("map", {frame:189}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "p": () => [sprite("map", {frame:190}),scale(1), area(),body({isStatic:true}),"block" ],
                 },
             }),
 
@@ -1114,7 +1148,7 @@ scene('level1',()=> {
     // ######################## PLAYER #########################
 
     const SPEED = 250
-    let JUMP_FORCE = 400
+    let JUMP_FORCE = 350
     const ENEMY_SPEED = 60
     const BULLET_SPEED = 200
     let PLAYER_HEALTH = 100
@@ -1126,8 +1160,9 @@ scene('level1',()=> {
         anchor("center"),
         pos(100,1600),
         area(),
-        body(),
+        body({jumpForce: JUMP_FORCE}),
         health(PLAYER_HEALTH),
+        doubleJump(),
         z(49),
         "player"
     ])
@@ -1151,16 +1186,11 @@ scene('level1',()=> {
     })
     function Dash(dashX,dashY){
         isDashAvailable = false
-        camScale(1.1,1)
-        const t = tween(player.pos,vec2((player.pos.x)+dashX,(player.pos.y)+dashY),0.2,(p) => player.pos = p,easings.easeOutSine)
+        const t = tween(player.pos,vec2((player.pos.x)+dashX,(player.pos.y)+dashY),0.3,(p) => player.pos = p,easings.easeOutSine)
         onUpdate(()=>{
             player.onCollide("block",()=>{
-                // console.log("player collide with block")
                 t.cancel()
             })
-        })
-        wait(0.5,()=>{
-            camScale(1,1)
         })
     }
 
@@ -1169,111 +1199,106 @@ scene('level1',()=> {
     let dirY = 0
     if(!isGamepadConnected){
 
-        onUpdate(()=>{
-            onKeyDown("z",()=>{
+        onUpdate(()=> {
+            onKeyDown("z", () => {
                 gun.angle = -90
                 dirX = 0
-                dirY = 100
+                dirY = 0
             })
-            onKeyDown("s",()=>{
+            onKeyDown("s", () => {
                 gun.angle = 90
                 dirX = 0
-                dirY = -100
+                dirY = 0
             })
 
-            onKeyDown("q",()=>{
+            onKeyDown("q", () => {
                 gun.angle = 180
-                dirX = 100
+                dirX = -200
                 dirY = 0
             })
 
-            onKeyDown("d",()=>{
+            onKeyDown("d", () => {
                 gun.angle = 0
-                dirX = -100
+                dirX = 200
                 dirY = 0
             })
 
-            if(isKeyDown("z") && isKeyDown("d"))
-            {
+            if (isKeyDown("z") && isKeyDown("d")) {
                 console.log("up right")
                 gun.angle = -45
-                dirX = -100
-                dirY = 100
+                dirX = 0
+                dirY = 0
             }
-            if(isKeyDown("z") && isKeyDown("q"))
-            {
+            if (isKeyDown("z") && isKeyDown("q")) {
                 console.log("up left")
                 gun.angle = -135
-                dirX = 100
-                dirY = 100
+                dirX = 0
+                dirY = 0
             }
-            if(isKeyDown("s") && isKeyDown("q"))
-            {
+            if (isKeyDown("s") && isKeyDown("q")) {
                 console.log("down left")
                 gun.angle = 135
-                dirX = 100
-                dirY = -100
+                dirX = 0
+                dirY = 0
             }
-            if(isKeyDown("s") && isKeyDown("d"))
-            {
+            if (isKeyDown("s") && isKeyDown("d")) {
                 console.log("down right")
                 gun.angle = 45
-                dirX = -100
-                dirY = 100
+                dirX = 0
+                dirY = 0
             }
         })
 
         onKeyDown("d",()=>{
             player.move(SPEED, 0)
-            onUpdate(()=>{
-                if(isDashing){
-                    player.move(0,0)
-                    wait(3,()=>{
-                        isDashing = false
-                        console.log("waiting 3s ")
-                    })
-
-                }
-            })
+            if (player.isGrounded() && player.curAnim() !== "run") {
+                player.play("run")
+            }
         })
 
         onKeyDown("q",()=>{
             player.move(-SPEED, 0)
+            if (player.isGrounded() && player.curAnim() !== "run") {
+                player.play("run")
+            }
         })
 
         let canJump  = true
         onKeyPress("space", () => {
             if (player.isGrounded()) {
                 canJump = true
-                // console.log(canJump)
-                // console.log("player grounded")
                 player.jump(JUMP_FORCE)
                 player.play("jump")
             } else {
-                // console.log("player on air")
-                // console.log(canJump)
                 if(canJump){
-                    // console.log("can jump")
-                    Dash(0,-100)
+                    player.jump()
                     canJump = false
-                } else {
-                    // console.log("cannon jump")
                 }
             }
         })
 
-        onKeyPress("shift",(position)=> {
+        let playerCanShoot = true
+        onKeyPress("m",(position)=> {
 
             const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-            spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
-            //debug.log(mousePos().angle())
+            if(playerCanShoot){
+                spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
+                playerCanShoot = false
+                wait(1,()=>{
+                    playerCanShoot = true
+                })
+            }
+
+
+        })
+
+        onKeyPress("l",()=>{
             if(!player.isGrounded()){
                 if(isDashAvailable){
                     isDashing = true
                     Dash(dirX,dirY)
                 }
             }
-
         })
     }
 
@@ -1289,23 +1314,29 @@ scene('level1',()=> {
             onUpdate(()=>{
                 if (v.x > 0 && v.y === 0){
                     gun.angle= 0
-                    dirX = -100
+                    dirX = 200
                     dirY = 0
+                    if (player.isGrounded() && player.curAnim() !== "run") {
+                        player.play("run")
+                    }
                 }
                 if (v.x === 0 && v.y > 0){
                     gun.angle= 90
                     dirX = 0
-                    dirY = -100
+                    dirY = 0
                 }
                 if (v.x < 0 && v.y === 0){
                     gun.angle= 180
-                    dirX = 100
+                    dirX = -200
                     dirY = 0
+                    if (player.isGrounded() && player.curAnim() !== "run") {
+                        player.play("run")
+                    }
                 }
                 if (v.x === 0 && v.y < 0){
                     gun.angle= -90
                     dirX = 0
-                    dirY = 100
+                    dirY = 0
                 }
             })
         })
@@ -1314,54 +1345,29 @@ scene('level1',()=> {
         onGamepadButtonPress("south", () => {
             if (player.isGrounded()) {
                 canJump = true
-                // console.log(canJump)
-                // console.log("player grounded")
                 player.jump(JUMP_FORCE)
                 player.play("jump")
             } else {
-                // console.log("player on air")
-                // console.log(canJump)
                 if(canJump){
-                    // console.log("can jump")
-                    Dash(0,-100)
+                    player.jump()
                     canJump = false
-                } else {
-                    // console.log("cannon jump")
                 }
             }
         })
 
-        onUpdate(()=>{
-            onGamepadButtonPress("dpad-up",()=>{
-                console.log("controller dpad up")
-                gun.angle = -90
-                dirX = 0
-                dirY = 100
-            })
-            onGamepadButtonDown("dpad-down",()=>{
-                console.log("controller dpad down")
-                gun.angle = 90
-                dirX = 0
-                dirY = -100
-            })
-            onGamepadButtonDown("dpad-left",()=>{
-                gun.angle = 180
-                dirX = 100
-                dirY = 0
-            })
-            onGamepadButtonDown("dpad-right",()=>{
-                gun.angle = 0
-                dirX = -100
-                dirY = 0
-            })
+        let playerCanShoot = true
+        onGamepadButtonPress("west",(position)=> {
+            const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
+            if(playerCanShoot){
+                spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
+                playerCanShoot = false
+                wait(1,()=>{
+                    playerCanShoot = true
+                })
+            }
         })
 
-        onGamepadButtonPress("west",(position)=> {
-            console.log("west")
-
-            const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-            spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
-            //debug.log(mousePos().angle())
+        onGamepadButtonPress("east",()=>{
             if(!player.isGrounded()){
                 if(!player.isGrounded()){
                     if(isDashAvailable){
@@ -1403,12 +1409,7 @@ scene('level1',()=> {
     ])
 
     onUpdate(() => {
-        // const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-        // 	console.log("muzzle: ", muzzlePos)
         gun.pos = player.pos
-        // 	console.log(gun.pos)
-        // gun.angle = mousePos().angle(gun.pos)
-        // 	console.log(gun.angle)
     })
 
     let isDashing = false
@@ -1416,10 +1417,11 @@ scene('level1',()=> {
     function spawnBullet(bulletposX, bulletPosY, direction) {
 
         add([
-            rect(25, 3),
+            rect(12,10),
+            outline(2,rgb(0,0,0)),
             pos(gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))),
             anchor("top"),
-            color(165, 36, 34),
+            color(255,255,0),
             area(),
             move(Vec2.fromAngle(gun.angle), 400),
             z(20),
@@ -1516,35 +1518,7 @@ scene('level1',()=> {
         enemy.move(dir.scale(ENEMY_SPEED))
     })
 
-
-
     //#############################################################
-
-
-
-
-
-
-    // ################# Bullet ######################
-
-    // function spawnBullet(p) {
-    // 	if (gunDestroyed) {
-    // 		add([
-    // 			rect(12, 12),
-    // 			pos(p),
-    // 			anchor('center'),
-    // 			area(),
-    // 			color(300, 0, 0),
-    // 			move(0, 400),
-    // 			offscreen({ destroy: true }),
-    // 			'playerBullet',
-    // 		])
-    // 	}
-    // }
-
-    // onKeyPress('up', () => {
-    // 	spawnBullet(player.pos.add(20, 20));
-    // })
 
     // ---------------- COLLIDE -----------------
 
@@ -1569,11 +1543,6 @@ scene('level1',()=> {
         shake(200)
     })
 
-    // player.onCollide('gun', (m) => {
-    // 	destroy(m)
-    // 	gunDestroyed = true
-    // })
-
     player.onCollide("dangerous", () => {
         player.hurt(20)
         healthBar.value -= 20
@@ -1591,6 +1560,10 @@ scene('level1',()=> {
     onCollide("playerBullet", "dangerous", (p, d) => {
         destroy(d)
         shake(10)
+    })
+
+    onCollide("playerBullet","block",(pb,b)=>{
+        destroy(pb)
     })
 
     // ########################### SCORE #############################
@@ -1625,12 +1598,39 @@ scene('level1',()=> {
     // ########################## Health ############################
 
     const healthBar = add([
-        text( "100 pv"),
-        pos(width()/2,20),
+
+        fixed(),
+        text("❤️❤️❤️❤️❤️"),
+        pos(width() / 15, 20),
         {
-            value:100,
+            value: 100,
         }
     ])
+
+    player.onCollide("dangerous", () => {
+        player.hurt(20);
+        healthBar.value -= 20;
+        updateHealthBar();
+        if (healthBar.value <= 0) {
+            go('lose');
+            wait(2, () => {
+                go('scene');
+            });
+        }
+    });
+
+    function updateHealthBar() {
+        let remainingStars = Math.ceil(healthBar.value / 20);
+        healthBar.text = "❤️".repeat(remainingStars);
+        console.log(healthBar.value);
+    }
+
+
+    onCollide("playerBullet", "dangerous", (p, d) => {
+        destroy(d)
+        score.value += 20
+        score.text = "score: " + score.value;
+    })
 
     //################################################################
 
@@ -3214,67 +3214,39 @@ scene('lose',()=>{
 
 // #################### SCENE MENU ###############################
 
-let isGamepadConnected = false
-scene("menu",()=>{
-    add([
-        sprite("bg-beginning"),
-        scale(0.500)
-    ]),
-
-        add([
-            sprite("logo"),
-            area(),
-            anchor("center"),
-            pos(center().x, center().y),
-            scale(1),
-        ]),
-
-        add([
-            text('upheavtt'),
-            area(),
-            anchor("center"),
-            pos(center().x, 370),
-            outline(4),
-            text("Taper sur [ ENTRER ] pour commencer à jouer", {
-                size: 30,
-                opacity: 0.3
-            }),
-        ]);
-
-    onKeyRelease("enter", () => {
-        go("chooseLevel");
-    })
-
-    onGamepadDisconnect(()=>{
-        add([
-            text("Gamepad not found", {
-                width: width() - 30,
-                align: "center",
-                size: 25,
-            }),
-            pos(center().x,450),
-            anchor("center"),
-        ])
-    })
 
 
-    if(isGamepadConnected == true) {
-        destroy(onGamepadDisconnect)
-    }
-
-    onGamepadConnect(()=>{
-        add([
-            text("Gamepad Connected", {
-                width: width() - 180,
-                align: "center",
-                color: GREEN,
-            }),
-            pos(center().x,450),
-            anchor("center"),
-        ])
-        isGamepadConnected = true
-    })
-
-})
 
 go("menu")
+
+// scene("menu", () => {
+//
+//     add([
+//         sprite("bg-beginning"),
+//         scale(0.500)
+//     ]),
+//
+//         add([
+//             sprite("logo"),
+//             area(),
+//             anchor("center"),
+//             pos(center().x, center().y),
+//             scale(1),
+//         ]),
+//
+//         add([
+//             text('upheavtt'),
+//             area(),
+//             anchor("center"),
+//             pos(center().x, 450),
+//             outline(4),
+//             text("Taper sur [ ENTRER ] pour commencer à jouer", {
+//                 size: 20,
+//                 opacity: 0.3
+//             }),
+//         ]);
+//
+//     onKeyRelease("enter", () => {
+//         go("chooseLevel");
+//     })
+// });

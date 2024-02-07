@@ -4164,4 +4164,4 @@ scene("menu",()=>{
 
 })
 
-go("menu")
+go("menu")q

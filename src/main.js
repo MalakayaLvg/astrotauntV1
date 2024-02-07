@@ -39,8 +39,11 @@ loadSprite("astro", "Q0FRlty.png", {
 
 
 //image de fond :
-
+loadSprite('bg-beginning', 'SutOjg4.png')
+loadSprite('bg-levels', 'sM0Q2AA.png')
+loadSprite('bg-death', 'fMJvDkf.png')
 // NATAN
+loadSprite('logo', 'MqUYiI6.png')
 
 loadSprite('beam', 'fUwX4Jc.png')
 loadSprite('crate', 'Uz51WxL.png')
@@ -69,7 +72,7 @@ loadSprite('pit', 'DFAfOnt.png', {sliceX: 2, sliceY: 3,})
 loadSprite('pod', 'fnH45mO.png', {sliceX: 4, sliceY: 1,})
 loadSprite('messagebox', 'gUvvVXW.png', {sliceX: 3, sliceY: 3,})
 loadSprite('rocks', 'QzTqlac.png', {sliceX: 8, sliceY: 3,})
-loadSprite('map', 'd87auk2.png',{sliceX:20, sliceY:20,})
+loadSprite('map', 'asb3EeB.png',{sliceX:20, sliceY:20,})
 
 
 

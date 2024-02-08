@@ -113,7 +113,7 @@ scene("menu",()=>{
             text('upheavtt'),
             area(),
             anchor("center"),
-            pos(center().x, 500),
+            pos(center().x, 600),
             outline(4),
             text("Taper sur [ ENTRER ] ou appuyer sur [x] de la manette pour commencer à jouer", {
                 size: 30,
@@ -205,16 +205,17 @@ scene("chooseLevel", () => {
 
     }
 
-    addButton("Level 1",vec2(450,200),()=> go("level1"))
-    addButton("Level 2",vec2(450,300),()=> go("level2"))
-    addButton("Level 3",vec2(450,400),()=> go("level3"))
+    addButton("Level 1",vec2(center().x,center().y-100),()=> go("level1"))
+    addButton("Level 2",vec2(center().x,center().y),()=> go("level2"))
+    addButton("Level 3",vec2(center().x,center().y+100),()=> go("level3"))
 
     add([
         text("Choisissez un niveau !",  {
-            size: 40,
+            size: 60,
             outline: 4
         }),
-        pos(450,20)
+        anchor("center"),
+        pos(center().x,80)
     ]);
 });
 
@@ -1543,19 +1544,19 @@ scene('level1',()=> {
         shake(200)
     })
 
-    player.onCollide("dangerous", () => {
-        player.hurt(20)
-        healthBar.value -= 20
-        healthBar.text = healthBar.value + "pv"
-        console.log(healthBar.value)
-        if (healthBar.value <= 0)
-        {
-            go('lose')
-            wait(2,()=>{
-                go('scene')
-            })
-        }
-    })
+    // player.onCollide("dangerous", () => {
+    //     player.hurt(20)
+    //     healthBar.value -= 20
+    //     healthBar.text = healthBar.value + "pv"
+    //     console.log(healthBar.value)
+    //     if (healthBar.value <= 0)
+    //     {
+    //         go('lose')
+    //         wait(2,()=>{
+    //             go('scene')
+    //         })
+    //     }
+    // })
 
     onCollide("playerBullet", "dangerous", (p, d) => {
         destroy(d)
@@ -3204,49 +3205,101 @@ scene('level3',()=> {
 // ############################ SCENE LOSE ################################"
 scene('lose',()=>{
 
+    function addButton(txt, p, f) {
+
+
+        const btn = add([
+            rect(240, 80, { radius: 8 }),
+            pos(p),
+            area(),
+            scale(1),
+            anchor("center"),
+            outline(4),
+        ])
+
+
+        btn.add([
+            text(txt),
+            anchor("center"),
+            color(0, 0, 0),
+        ])
+
+        btn.onHoverUpdate(() => {
+            const t = time() * 10
+            btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7)
+            btn.scale = vec2(1.2)
+            setCursor("pointer")
+        })
+
+        btn.onHoverEnd(() => {
+            btn.scale = vec2(1)
+            btn.color = rgb()
+        })
+
+        btn.onClick(f)
+
+        return btn
+
+    }
+
+    addButton("Chose Level",vec2(300,400),()=> go("chooseLevel"))
+    addButton("Menu",vec2(600,400),()=> go("menu"))
+
+    add([
+        sprite("bg-death"),
+        scale(1)
+    ])
+
+    function addButton(txt, p, f) {
+
+
+        const btn = add([
+            rect(240, 80, { radius: 8 }),
+            pos(p),
+            area(),
+            scale(1),
+            anchor("center"),
+            outline(4),
+        ])
+
+
+        btn.add([
+            text(txt),
+            anchor("center"),
+            color(0, 0, 0),
+        ])
+
+        btn.onHoverUpdate(() => {
+            const t = time() * 10
+            btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7)
+            btn.scale = vec2(1.2)
+            setCursor("pointer")
+        })
+
+        btn.onHoverEnd(() => {
+            btn.scale = vec2(1)
+            btn.color = rgb()
+        })
+
+        btn.onClick(f)
+
+        return btn
+
+    }
+
+    addButton("Chose Level",vec2(center().x-150,400),()=> go("chooseLevel"))
+    addButton("Menu",vec2(center().x+150,400),()=> go("menu"))
+
     add([
         text('you lose'),
         anchor('center'),
-        scale(5),
+        scale(3),
         pos(width()/2, height()/2)
     ])
 })
 
-// #################### SCENE MENU ###############################
-
-
+// #################### START ###############################
 
 
 go("menu")
 
-// scene("menu", () => {
-//
-//     add([
-//         sprite("bg-beginning"),
-//         scale(0.500)
-//     ]),
-//
-//         add([
-//             sprite("logo"),
-//             area(),
-//             anchor("center"),
-//             pos(center().x, center().y),
-//             scale(1),
-//         ]),
-//
-//         add([
-//             text('upheavtt'),
-//             area(),
-//             anchor("center"),
-//             pos(center().x, 450),
-//             outline(4),
-//             text("Taper sur [ ENTRER ] pour commencer à jouer", {
-//                 size: 20,
-//                 opacity: 0.3
-//             }),
-//         ]);
-//
-//     onKeyRelease("enter", () => {
-//         go("chooseLevel");
-//     })
-// });

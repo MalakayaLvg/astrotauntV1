@@ -246,6 +246,10 @@ scene("chooseLevel", () => {
 // ############################ SCENE LVL1 ################################"
 scene('level1',()=> {
 
+    onKeyPress("f", (c) => {
+        setFullscreen(!isFullscreen())
+    })
+
     const level1 = [
         addLevel(
 
@@ -1088,6 +1092,10 @@ scene('level1',()=> {
 // ############################ SCENE LVL2 ################################"
 scene('level2',()=> {
 
+    onKeyPress("f", (c) => {
+        setFullscreen(!isFullscreen())
+    })
+
     const level2 = [
         addLevel(
             [
@@ -1804,8 +1812,16 @@ scene('level2',()=> {
 
 })
 
+onKeyPress("f", (c) => {
+    setFullscreen(!isFullscreen())
+})
+
 // ############################ SCENE LVL3 ################################"
 scene('level3',()=> {
+
+    onKeyPress("f", (c) => {
+        setFullscreen(!isFullscreen())
+    })
 
     const level3 = [
         addLevel(
@@ -2472,7 +2488,7 @@ scene('level3',()=> {
     const boss = add([
         sprite("boss"),
         scale(2),
-        pos(100,1400),
+        pos(800,1000),
         area(),
         anchor("center"),
         state("move", [ "idle", "attack", "move" ]),

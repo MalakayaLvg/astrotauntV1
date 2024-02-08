@@ -219,552 +219,6 @@ scene("chooseLevel", () => {
     ]);
 });
 
-
-// ########################### SCENE GAME ################################
-
-scene("game",()=>{
-
-    // ############## FULL SCREEN #############
-
-
-    onKeyPress("f", (c) => {
-        setFullscreen(!isFullscreen())
-    })
-
-    // ##########################################
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    // ######################## PLAYER #########################
-
-    const SPEED = 250
-    let JUMP_FORCE = 400
-    const ENEMY_SPEED = 60
-    const BULLET_SPEED = 200
-    let PLAYER_HEALTH = 100
-    let gunDestroyed = false
-
-    const player = add([
-        sprite('astro'),
-        scale(5),
-        anchor("center"),
-        pos(300,300),
-        area(),
-        body(),
-        health(PLAYER_HEALTH),
-        z(49),
-        "player"
-    ])
-
-    //######################### MOUVEMENT ###########################
-
-    // Switch to "idle" or "run" animation when player hits ground
-    player.onGround(() => {
-        if (!isKeyDown("left") && !isKeyDown("right")) {
-            player.play("idle")
-        } else {
-            player.play("run")
-        }
-    })
-
-    // ########################## DASH ##############################
-
-    let isDashAvailable = true
-    player.onGround(()=>{
-        isDashAvailable = true
-    })
-    function Dash(dashX,dashY){
-        isDashAvailable = false
-        camScale(1.1,1)
-        const t = tween(player.pos,vec2((player.pos.x)+dashX,(player.pos.y)+dashY),0.2,(p) => player.pos = p,easings.easeOutSine)
-        onUpdate(()=>{
-            player.onCollide("block",()=>{
-                // console.log("player collide with block")
-                t.cancel()
-            })
-        })
-        wait(0.5,()=>{
-            camScale(1,1)
-        })
-    }
-
-    // ########################## KEYBOARD CONTROL #############################
-    let dirX = 0
-    let dirY = 0
-    if(!isGamepadConnected){
-
-        onUpdate(()=>{
-            onKeyDown("z",()=>{
-                gun.angle = -90
-                dirX = 0
-                dirY = 100
-            })
-            onKeyDown("s",()=>{
-                gun.angle = 90
-                dirX = 0
-                dirY = -100
-            })
-
-            onKeyDown("q",()=>{
-                gun.angle = 180
-                dirX = 100
-                dirY = 0
-            })
-
-            onKeyDown("d",()=>{
-                gun.angle = 0
-                dirX = -100
-                dirY = 0
-            })
-
-            if(isKeyDown("z") && isKeyDown("d"))
-            {
-                console.log("up right")
-                gun.angle = -45
-                dirX = -100
-                dirY = 100
-            }
-            if(isKeyDown("z") && isKeyDown("q"))
-            {
-                console.log("up left")
-                gun.angle = -135
-                dirX = 100
-                dirY = 100
-            }
-            if(isKeyDown("s") && isKeyDown("q"))
-            {
-                console.log("down left")
-                gun.angle = 135
-                dirX = 100
-                dirY = -100
-            }
-            if(isKeyDown("s") && isKeyDown("d"))
-            {
-                console.log("down right")
-                gun.angle = 45
-                dirX = -100
-                dirY = 100
-            }
-        })
-
-        onKeyDown("d",()=>{
-            player.move(SPEED, 0)
-            onUpdate(()=>{
-                if(isDashing){
-                    player.move(0,0)
-                    wait(3,()=>{
-                        isDashing = false
-                        console.log("waiting 3s ")
-                    })
-
-                }
-            })
-        })
-
-        onKeyDown("q",()=>{
-            player.move(-SPEED, 0)
-        })
-
-        let canJump  = true
-        onKeyPress("space", () => {
-            if (player.isGrounded()) {
-                canJump = true
-                // console.log(canJump)
-                // console.log("player grounded")
-                player.jump(JUMP_FORCE)
-                player.play("jump")
-            } else {
-                // console.log("player on air")
-                // console.log(canJump)
-                if(canJump){
-                    // console.log("can jump")
-                    Dash(0,-100)
-                    canJump = false
-                } else {
-                    // console.log("cannon jump")
-                }
-            }
-        })
-
-        onKeyPress("shift",(position)=> {
-
-            const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-            spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
-            //debug.log(mousePos().angle())
-            if(!player.isGrounded()){
-                if(isDashAvailable){
-                    isDashing = true
-                    Dash(dirX,dirY)
-                }
-            }
-
-        })
-    }
-
-
-    // ##################################################################
-
-    // ########################## GAMEPAD CONTROL #######################
-
-    if(isGamepadConnected){
-        // setGravity(1500)
-        onGamepadStick("left", (v) => {
-            player.move(v.x * 250, 0)
-            onUpdate(()=>{
-                if (v.x > 0 && v.y === 0){
-                    gun.angle= 0
-                    dirX = -100
-                    dirY = 0
-                }
-                if (v.x === 0 && v.y > 0){
-                    gun.angle= 90
-                    dirX = 0
-                    dirY = -100
-                }
-                if (v.x < 0 && v.y === 0){
-                    gun.angle= 180
-                    dirX = 100
-                    dirY = 0
-                }
-                if (v.x === 0 && v.y < 0){
-                    gun.angle= -90
-                    dirX = 0
-                    dirY = 100
-                }
-            })
-        })
-
-        let canJump  = true
-        onGamepadButtonPress("south", () => {
-            if (player.isGrounded()) {
-                canJump = true
-                // console.log(canJump)
-                // console.log("player grounded")
-                player.jump(JUMP_FORCE)
-                player.play("jump")
-            } else {
-                // console.log("player on air")
-                // console.log(canJump)
-                if(canJump){
-                    // console.log("can jump")
-                    Dash(0,-100)
-                    canJump = false
-                } else {
-                    // console.log("cannon jump")
-                }
-            }
-        })
-
-        onUpdate(()=>{
-            onGamepadButtonPress("dpad-up",()=>{
-                console.log("controller dpad up")
-                gun.angle = -90
-                dirX = 0
-                dirY = 100
-            })
-            onGamepadButtonDown("dpad-down",()=>{
-                console.log("controller dpad down")
-                gun.angle = 90
-                dirX = 0
-                dirY = -100
-            })
-            onGamepadButtonDown("dpad-left",()=>{
-                gun.angle = 180
-                dirX = 100
-                dirY = 0
-            })
-            onGamepadButtonDown("dpad-right",()=>{
-                gun.angle = 0
-                dirX = -100
-                dirY = 0
-            })
-        })
-
-        onGamepadButtonPress("west",(position)=> {
-            console.log("west")
-
-            const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-            spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
-            //debug.log(mousePos().angle())
-            if(!player.isGrounded()){
-                if(!player.isGrounded()){
-                    if(isDashAvailable){
-                        isDashing = true
-                        Dash(dirX,dirY)
-                    }
-                }
-            }
-        })
-
-    }
-
-
-    // #########################################################
-
-    //######################### CAMERA ##########################
-
-    player.onUpdate(()=>{
-        camPos(player.pos)
-    })
-
-    //###########################################################
-
-    // ###################### GUN ##############################
-
-    const gun = add([
-        // rect(35, 8),
-        sprite("gun"),
-        scale(0.04),
-        pos(player.pos.x,player.pos.y),
-        // pos(500,500),
-        anchor(vec2(0,0)),
-        area(),
-        rotate(0),
-        color(204, 230, 244),
-        z(50),
-        // z(49),
-        "gun",
-    ])
-
-    onUpdate(() => {
-        // const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-        // 	console.log("muzzle: ", muzzlePos)
-        gun.pos = player.pos
-        // 	console.log(gun.pos)
-        // gun.angle = mousePos().angle(gun.pos)
-        // 	console.log(gun.angle)
-    })
-
-    let isDashing = false
-
-    function spawnBullet(bulletposX, bulletPosY, direction) {
-
-        add([
-            rect(25, 3),
-            pos(gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))),
-            anchor("top"),
-            color(165, 36, 34),
-            area(),
-            move(Vec2.fromAngle(gun.angle), 400),
-            z(20),
-            //layer("game"),
-            rotate(gun.angle),
-            "playerBullet",
-            "danger"
-        ]);
-    }
-
-    // ###############################################################
-
-
-    // ######################## ENEMY #########################
-
-    function patrol(speed = 100, dir = 1) {
-        let changeDirectionTimeout;
-
-        function changeDirection() {
-            dir = -dir; // Change la direction
-            // Réinitialise le délai pour le prochain changement de direction
-            changeDirectionTimeout = setTimeout(changeDirection, 3000); // 3000 ms = 3 secondes
-        }
-
-        return {
-            id: "patrol",
-            require: ["pos", "area"],
-            add() {
-                // Lance le délai initial pour le premier changement de direction
-                changeDirectionTimeout = setTimeout(changeDirection, 3000); // 3000 ms = 3 secondes
-
-                this.on("collide", (obj, col) => {
-                    if (col.isLeft() || col.isRight()) {
-                        dir = -dir;
-                    }
-                });
-            },
-            update() {
-                this.move(speed * dir, 0);
-            },
-        };
-    }
-
-    const enemy = add([
-        sprite("ghosty"),
-        scale(1.5),
-        pos(450,50),
-        area(),
-        body(),
-        anchor("center"),
-        state("move", [ "idle", "attack", "move" ]),
-    ])
-
-
-    enemy.onStateEnter("idle", async () => {
-        await wait(0.5)
-        enemy.enterState("attack")
-    })
-
-    enemy.onStateEnter("attack", async () => {
-
-        // Don't do anything if player doesn't exist anymore
-        if (player.exists() && enemy.exists()) {
-
-            const dir = player.pos.sub(enemy.pos).unit()
-
-            add([
-                pos(enemy.pos),
-                move(dir, BULLET_SPEED),
-                rect(12, 12),
-                area(),
-                offscreen({ destroy: true }),
-                anchor("center"),
-                color(BLUE),
-                "enemyBullet",
-            ])
-
-        }
-
-        await wait(2)
-        enemy.enterState("move")
-
-    })
-
-    enemy.onStateEnter("move", async () => {
-        await wait(2)
-        enemy.enterState("idle")
-    })
-
-
-    enemy.onStateUpdate("move", () => {
-        if (!player.exists()) return
-        const dir = player.pos.sub(enemy.pos).unit()
-        enemy.move(dir.scale(ENEMY_SPEED))
-    })
-
-
-
-    //#############################################################
-
-
-
-
-
-
-    // ################# Bullet ######################
-
-    // function spawnBullet(p) {
-    // 	if (gunDestroyed) {
-    // 		add([
-    // 			rect(12, 12),
-    // 			pos(p),
-    // 			anchor('center'),
-    // 			area(),
-    // 			color(300, 0, 0),
-    // 			move(0, 400),
-    // 			offscreen({ destroy: true }),
-    // 			'playerBullet',
-    // 		])
-    // 	}
-    // }
-
-    // onKeyPress('up', () => {
-    // 	spawnBullet(player.pos.add(20, 20));
-    // })
-
-    // ---------------- COLLIDE -----------------
-
-    player.onCollide("enemyBullet", (bullet) => {
-        destroy(bullet)
-        player.hurt(20)
-        healthBar.value -= 20
-        healthBar.text = healthBar.value + "pv"
-        console.log(healthBar.value)
-        if (healthBar.value <= 0)
-        {
-            go('lose')
-            wait(2,()=>{
-                go('scene')
-            })
-        }
-    })
-
-    enemy.onCollide("playerBullet", (bullet) => {
-        destroy(enemy)
-        console.log("touch enemy")
-        shake(200)
-    })
-
-    // player.onCollide('gun', (m) => {
-    // 	destroy(m)
-    // 	gunDestroyed = true
-    // })
-
-    player.onCollide("dangerous", () => {
-        player.hurt(20)
-        healthBar.value -= 20
-        healthBar.text = healthBar.value + "pv"
-        console.log(healthBar.value)
-        if (healthBar.value <= 0)
-        {
-            go('lose')
-            wait(2,()=>{
-                go('scene')
-            })
-        }
-    })
-
-    onCollide("playerBullet", "dangerous", (p, d) => {
-        destroy(d)
-        shake(10)
-    })
-
-    // ########################### SCORE #############################
-
-    const score = add([
-        text("score: 0"),
-        pos(width()-200,20),
-        {
-            value:0,
-        }
-    ])
-
-    // ####################################################################
-
-    // ############################# TIMER ###############################
-
-    // const timer = add([
-    // 	text("0"),
-    // 	pos(width()-200,60),
-    // 	{
-    // 		value:0,
-    // 	},
-    // ])
-    //
-    // loop(1,()=>{
-    // 	timer.value ++
-    // 	timer.text = timer.value
-    // })
-
-    // ###############################################################
-
-    // ########################## Health ############################
-
-    const healthBar = add([
-        text( "100 pv"),
-        pos(width()/2,20),
-        {
-            value:100,
-        }
-    ])
-
-    //################################################################
-
-
-})
-
 // ############################ SCENE LVL1 ################################"
 scene('level1',()=> {
 
@@ -1500,18 +954,19 @@ scene('level1',()=> {
 
     // ############################# TIMER ###############################
 
-    // const timer = add([
-    // 	text("0"),
-    // 	pos(width()-200,60),
-    // 	{
-    // 		value:0,
-    // 	},
-    // ])
-    //
-    // loop(1,()=>{
-    // 	timer.value ++
-    // 	timer.text = timer.value
-    // })
+    const timer = add([
+        fixed(),
+        text("0"),
+        pos(width()-400,20),
+        {
+            value:0,
+        },
+    ])
+
+    loop(1,()=>{
+        timer.value ++
+        timer.text = timer.value
+    })
 
     // ###############################################################
 
@@ -1823,11 +1278,10 @@ scene('level2',()=> {
     // ######################## PLAYER #########################
 
     const SPEED = 250
-    let JUMP_FORCE = 400
+    let JUMP_FORCE = 350
     const ENEMY_SPEED = 60
     const BULLET_SPEED = 200
     let PLAYER_HEALTH = 100
-    let gunDestroyed = false
 
     const player = add([
         sprite('astro'),
@@ -1835,8 +1289,9 @@ scene('level2',()=> {
         anchor("center"),
         pos(110,750),
         area(),
-        body(),
+        body({jumpForce: JUMP_FORCE}),
         health(PLAYER_HEALTH),
+        doubleJump(),
         z(49),
         "player"
     ])
@@ -1860,16 +1315,11 @@ scene('level2',()=> {
     })
     function Dash(dashX,dashY){
         isDashAvailable = false
-        camScale(1.1,1)
-        const t = tween(player.pos,vec2((player.pos.x)+dashX,(player.pos.y)+dashY),0.2,(p) => player.pos = p,easings.easeOutSine)
+        const t = tween(player.pos,vec2((player.pos.x)+dashX,(player.pos.y)+dashY),0.3,(p) => player.pos = p,easings.easeOutSine)
         onUpdate(()=>{
             player.onCollide("block",()=>{
-                // console.log("player collide with block")
                 t.cancel()
             })
-        })
-        wait(0.5,()=>{
-            camScale(1,1)
         })
     }
 
@@ -1878,111 +1328,106 @@ scene('level2',()=> {
     let dirY = 0
     if(!isGamepadConnected){
 
-        onUpdate(()=>{
-            onKeyDown("z",()=>{
+        onUpdate(()=> {
+            onKeyDown("z", () => {
                 gun.angle = -90
                 dirX = 0
-                dirY = 100
+                dirY = 0
             })
-            onKeyDown("s",()=>{
+            onKeyDown("s", () => {
                 gun.angle = 90
                 dirX = 0
-                dirY = -100
+                dirY = 0
             })
 
-            onKeyDown("q",()=>{
+            onKeyDown("q", () => {
                 gun.angle = 180
-                dirX = 100
+                dirX = -200
                 dirY = 0
             })
 
-            onKeyDown("d",()=>{
+            onKeyDown("d", () => {
                 gun.angle = 0
-                dirX = -100
+                dirX = 200
                 dirY = 0
             })
 
-            if(isKeyDown("z") && isKeyDown("d"))
-            {
+            if (isKeyDown("z") && isKeyDown("d")) {
                 console.log("up right")
                 gun.angle = -45
-                dirX = -100
-                dirY = 100
+                dirX = 0
+                dirY = 0
             }
-            if(isKeyDown("z") && isKeyDown("q"))
-            {
+            if (isKeyDown("z") && isKeyDown("q")) {
                 console.log("up left")
                 gun.angle = -135
-                dirX = 100
-                dirY = 100
+                dirX = 0
+                dirY = 0
             }
-            if(isKeyDown("s") && isKeyDown("q"))
-            {
+            if (isKeyDown("s") && isKeyDown("q")) {
                 console.log("down left")
                 gun.angle = 135
-                dirX = 100
-                dirY = -100
+                dirX = 0
+                dirY = 0
             }
-            if(isKeyDown("s") && isKeyDown("d"))
-            {
+            if (isKeyDown("s") && isKeyDown("d")) {
                 console.log("down right")
                 gun.angle = 45
-                dirX = -100
-                dirY = 100
+                dirX = 0
+                dirY = 0
             }
         })
 
         onKeyDown("d",()=>{
             player.move(SPEED, 0)
-            onUpdate(()=>{
-                if(isDashing){
-                    player.move(0,0)
-                    wait(3,()=>{
-                        isDashing = false
-                        console.log("waiting 3s ")
-                    })
-
-                }
-            })
+            if (player.isGrounded() && player.curAnim() !== "run") {
+                player.play("run")
+            }
         })
 
         onKeyDown("q",()=>{
             player.move(-SPEED, 0)
+            if (player.isGrounded() && player.curAnim() !== "run") {
+                player.play("run")
+            }
         })
 
         let canJump  = true
         onKeyPress("space", () => {
             if (player.isGrounded()) {
                 canJump = true
-                // console.log(canJump)
-                // console.log("player grounded")
                 player.jump(JUMP_FORCE)
                 player.play("jump")
             } else {
-                // console.log("player on air")
-                // console.log(canJump)
                 if(canJump){
-                    // console.log("can jump")
-                    Dash(0,-100)
+                    player.jump()
                     canJump = false
-                } else {
-                    // console.log("cannon jump")
                 }
             }
         })
 
-        onKeyPress("shift",(position)=> {
+        let playerCanShoot = true
+        onKeyPress("m",(position)=> {
 
             const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-            spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
-            //debug.log(mousePos().angle())
+            if(playerCanShoot){
+                spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
+                playerCanShoot = false
+                wait(1,()=>{
+                    playerCanShoot = true
+                })
+            }
+
+
+        })
+
+        onKeyPress("l",()=>{
             if(!player.isGrounded()){
                 if(isDashAvailable){
                     isDashing = true
                     Dash(dirX,dirY)
                 }
             }
-
         })
     }
 
@@ -1998,23 +1443,29 @@ scene('level2',()=> {
             onUpdate(()=>{
                 if (v.x > 0 && v.y === 0){
                     gun.angle= 0
-                    dirX = -100
+                    dirX = 200
                     dirY = 0
+                    if (player.isGrounded() && player.curAnim() !== "run") {
+                        player.play("run")
+                    }
                 }
                 if (v.x === 0 && v.y > 0){
                     gun.angle= 90
                     dirX = 0
-                    dirY = -100
+                    dirY = 0
                 }
                 if (v.x < 0 && v.y === 0){
                     gun.angle= 180
-                    dirX = 100
+                    dirX = -200
                     dirY = 0
+                    if (player.isGrounded() && player.curAnim() !== "run") {
+                        player.play("run")
+                    }
                 }
                 if (v.x === 0 && v.y < 0){
                     gun.angle= -90
                     dirX = 0
-                    dirY = 100
+                    dirY = 0
                 }
             })
         })
@@ -2023,54 +1474,29 @@ scene('level2',()=> {
         onGamepadButtonPress("south", () => {
             if (player.isGrounded()) {
                 canJump = true
-                // console.log(canJump)
-                // console.log("player grounded")
                 player.jump(JUMP_FORCE)
                 player.play("jump")
             } else {
-                // console.log("player on air")
-                // console.log(canJump)
                 if(canJump){
-                    // console.log("can jump")
-                    Dash(0,-100)
+                    player.jump()
                     canJump = false
-                } else {
-                    // console.log("cannon jump")
                 }
             }
         })
 
-        onUpdate(()=>{
-            onGamepadButtonPress("dpad-up",()=>{
-                console.log("controller dpad up")
-                gun.angle = -90
-                dirX = 0
-                dirY = 100
-            })
-            onGamepadButtonDown("dpad-down",()=>{
-                console.log("controller dpad down")
-                gun.angle = 90
-                dirX = 0
-                dirY = -100
-            })
-            onGamepadButtonDown("dpad-left",()=>{
-                gun.angle = 180
-                dirX = 100
-                dirY = 0
-            })
-            onGamepadButtonDown("dpad-right",()=>{
-                gun.angle = 0
-                dirX = -100
-                dirY = 0
-            })
+        let playerCanShoot = true
+        onGamepadButtonPress("west",(position)=> {
+            const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
+            if(playerCanShoot){
+                spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
+                playerCanShoot = false
+                wait(1,()=>{
+                    playerCanShoot = true
+                })
+            }
         })
 
-        onGamepadButtonPress("west",(position)=> {
-            console.log("west")
-
-            const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-            spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
-            //debug.log(mousePos().angle())
+        onGamepadButtonPress("east",()=>{
             if(!player.isGrounded()){
                 if(!player.isGrounded()){
                     if(isDashAvailable){
@@ -2112,12 +1538,7 @@ scene('level2',()=> {
     ])
 
     onUpdate(() => {
-        // const muzzlePos = gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))
-        // 	console.log("muzzle: ", muzzlePos)
         gun.pos = player.pos
-        // 	console.log(gun.pos)
-        // gun.angle = mousePos().angle(gun.pos)
-        // 	console.log(gun.angle)
     })
 
     let isDashing = false
@@ -2125,10 +1546,11 @@ scene('level2',()=> {
     function spawnBullet(bulletposX, bulletPosY, direction) {
 
         add([
-            rect(25, 3),
+            rect(12,10),
+            outline(2,rgb(0,0,0)),
             pos(gun.pos.add(Vec2.fromAngle(gun.angle).scale(50))),
             anchor("top"),
-            color(165, 36, 34),
+            color(255,255,0),
             area(),
             move(Vec2.fromAngle(gun.angle), 400),
             z(20),
@@ -2172,139 +1594,30 @@ scene('level2',()=> {
         };
     }
 
-    const enemy = add([
-        sprite("ghosty"),
-        scale(1.5),
-        pos(450,50),
-        area(),
-        body(),
-        anchor("center"),
-        state("move", [ "idle", "attack", "move" ]),
-    ])
-
-
-    enemy.onStateEnter("idle", async () => {
-        await wait(0.5)
-        enemy.enterState("attack")
-    })
-
-    enemy.onStateEnter("attack", async () => {
-
-        // Don't do anything if player doesn't exist anymore
-        if (player.exists() && enemy.exists()) {
-
-            const dir = player.pos.sub(enemy.pos).unit()
-
-            add([
-                pos(enemy.pos),
-                move(dir, BULLET_SPEED),
-                rect(12, 12),
-                area(),
-                offscreen({ destroy: true }),
-                anchor("center"),
-                color(BLUE),
-                "enemyBullet",
-            ])
-
-        }
-
-        await wait(2)
-        enemy.enterState("move")
-
-    })
-
-    enemy.onStateEnter("move", async () => {
-        await wait(2)
-        enemy.enterState("idle")
-    })
-
-
-    enemy.onStateUpdate("move", () => {
-        if (!player.exists()) return
-        const dir = player.pos.sub(enemy.pos).unit()
-        enemy.move(dir.scale(ENEMY_SPEED))
-    })
-
-
 
     //#############################################################
 
-
-
-
-
-
-    // ################# Bullet ######################
-
-    // function spawnBullet(p) {
-    // 	if (gunDestroyed) {
-    // 		add([
-    // 			rect(12, 12),
-    // 			pos(p),
-    // 			anchor('center'),
-    // 			area(),
-    // 			color(300, 0, 0),
-    // 			move(0, 400),
-    // 			offscreen({ destroy: true }),
-    // 			'playerBullet',
-    // 		])
-    // 	}
-    // }
-
-    // onKeyPress('up', () => {
-    // 	spawnBullet(player.pos.add(20, 20));
-    // })
-
     // ---------------- COLLIDE -----------------
 
-    player.onCollide("enemyBullet", (bullet) => {
-        destroy(bullet)
-        player.hurt(20)
-        healthBar.value -= 20
-        healthBar.text = healthBar.value + "pv"
-        console.log(healthBar.value)
-        if (healthBar.value <= 0)
-        {
-            go('lose')
-            wait(2,()=>{
-                go('scene')
-            })
-        }
-    })
 
-    enemy.onCollide("playerBullet", (bullet) => {
-        destroy(enemy)
-        console.log("touch enemy")
-        shake(200)
-    })
 
-    // player.onCollide('gun', (m) => {
-    // 	destroy(m)
-    // 	gunDestroyed = true
-    // })
-
-    player.onCollide("dangerous", () => {
-        player.hurt(20)
-        healthBar.value -= 20
-        healthBar.text = healthBar.value + "pv"
-        console.log(healthBar.value)
-        if (healthBar.value <= 0)
-        {
-            go('lose')
-            wait(2,()=>{
-                go('scene')
-            })
-        }
-    })
 
     onCollide("playerBullet", "dangerous", (p, d) => {
         destroy(d)
-        shake(10)
+        score.value += 20
+        score.text = "score: " + score.value;
     })
+
+    onCollide("playerBullet","block",(pb,b)=>{
+        destroy(pb)
+    })
+
+
 
     // ########################### SCORE #############################
 
     const score = add([
+        fixed(),
         text("score: 0"),
         pos(width()-200,20),
         {
@@ -2316,32 +1629,58 @@ scene('level2',()=> {
 
     // ############################# TIMER ###############################
 
-    // const timer = add([
-    // 	text("0"),
-    // 	pos(width()-200,60),
-    // 	{
-    // 		value:0,
-    // 	},
-    // ])
-    //
-    // loop(1,()=>{
-    // 	timer.value ++
-    // 	timer.text = timer.value
-    // })
+    const timer = add([
+        fixed(),
+        text("0"),
+        pos(width()-400,20),
+        {
+            value:0,
+        },
+    ])
+
+    loop(1,()=>{
+        timer.value ++
+        timer.text = timer.value
+    })
 
     // ###############################################################
 
     // ########################## Health ############################
 
     const healthBar = add([
-        text( "100 pv"),
-        pos(width()/2,20),
+
+        fixed(),
+        text("❤️❤️❤️❤️❤️"),
+        pos(width() / 15, 20),
         {
-            value:100,
+            value: 100,
         }
     ])
 
-    //################################################################
+    player.onCollide("dangerous", () => {
+        player.hurt(20);
+        healthBar.value -= 20;
+        updateHealthBar();
+        if (healthBar.value <= 0) {
+            go('lose');
+            wait(2, () => {
+                go('scene');
+            });
+        }
+    });
+
+    function updateHealthBar() {
+        let remainingStars = Math.ceil(healthBar.value / 20);
+        healthBar.text = "❤️".repeat(remainingStars);
+        console.log(healthBar.value);
+    }
+
+
+    onCollide("playerBullet", "dangerous", (p, d) => {
+        destroy(d)
+        score.value += 20
+        score.text = "score: " + score.value;
+    })
 
 
 })

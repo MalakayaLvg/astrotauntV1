@@ -16,7 +16,8 @@ loadRoot('https://i.imgur.com/')
 // loadSprite('astronaut','wunHyEq.png')
 loadSprite('block','M6rwarW.png')
 loadSprite('gun', '12IgStq.png')
-loadSprite('ghosty','KPO3fR9.png')
+loadSprite('boss','bdCKcXh.png')
+loadSprite("spike","vPnz1At.png")
 
 
 //Player
@@ -929,6 +930,7 @@ scene('level1',()=> {
 
     onCollide("playerBullet", "dangerous", (p, d) => {
         destroy(d)
+        destroy(p)
         score.value += 20
         score.text = "score: " + score.value;
     })
@@ -1604,6 +1606,7 @@ scene('level2',()=> {
 
     onCollide("playerBullet", "dangerous", (p, d) => {
         destroy(d)
+        destroy(p)
         score.value += 20
         score.text = "score: " + score.value;
     })
@@ -2073,7 +2076,7 @@ scene('level3',()=> {
             if(playerCanShoot){
                 spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
                 playerCanShoot = false
-                wait(1,()=>{
+                wait(0.5,()=>{
                     playerCanShoot = true
                 })
             }
@@ -2150,7 +2153,7 @@ scene('level3',()=> {
             if(playerCanShoot){
                 spawnBullet(muzzlePos.x, muzzlePos.y, Vec2.fromAngle(gun.angle).scale(1, -1))
                 playerCanShoot = false
-                wait(1,()=>{
+                wait(0.5,()=>{
                     playerCanShoot = true
                 })
             }
@@ -2254,76 +2257,17 @@ scene('level3',()=> {
         };
     }
 
-    // ############################### BOSS ##################################
-
-    const boss = add([
-        sprite("ghosty"),
-        scale(4),
-        pos(100,1400),
-        health(200),
-        area(),
-        anchor("center"),
-        state("move", [ "idle", "attack", "move" ]),
-        "boss"
-    ])
-
-
-    boss.onStateEnter("idle", async () => {
-        await wait(0.5)
-        boss.enterState("attack")
-    })
-
-    boss.onStateEnter("attack", async () => {
-
-        // Don't do anything if player doesn't exist anymore
-        if (player.exists() && boss.exists()) {
-
-            const dir = player.pos.sub(boss.pos).unit()
-
-            add([
-                pos(boss.pos),
-                move(dir, BULLET_SPEED),
-                rect(12, 12),
-                area(),
-                offscreen({ destroy: true }),
-                anchor("center"),
-                color(BLUE),
-                "bossBullet",
-            ])
-
-        }
-
-        await wait(2)
-        boss.enterState("move")
-
-    })
-
-    boss.onStateEnter("move", async () => {
-        await wait(2)
-        boss.enterState("idle")
-    })
-
-
-    boss.onStateUpdate("move", () => {
-        if (!player.exists()) return
-        const dir = player.pos.sub(boss.pos).unit()
-        boss.move(dir.scale(ENEMY_SPEED))
-    })
-
-    //#############################################################
 
     // ---------------- COLLIDE -----------------
 
 
     onCollide("playerBullet", "boss", (p, d) => {
-        boss.hurt(10)
+        boss.hurt(20)
         destroy(p)
-        score.value += 20
-        score.text = "score: " + score.value;
     })
 
     onCollide("bossBullet", "player", (p, d) => {
-        player.hurt(10)
+        player.hurt(20)
         score.value += 20
         score.text = "score: " + score.value;
     })
@@ -2369,23 +2313,215 @@ scene('level3',()=> {
 
     // ###############################################################
 
+    // ############################### BOSS ##################################
+
+    const BOSS_HEALTH = 200
+    const boss = add([
+        sprite("boss"),
+        scale(2),
+        pos(100,1400),
+        area(),
+        anchor("center"),
+        state("move", [ "idle", "attack", "move" ]),
+        health(BOSS_HEALTH),
+        "boss",
+    ])
+
+
+    boss.onStateEnter("idle", async () => {
+        await wait(0.5)
+        boss.enterState("attack")
+    })
+
+
+    boss.onStateEnter("attack", async () => {
+
+        // Don't do anything if player doesn't exist anymore
+        if (player.exists() && boss.exists()) {
+
+            const dir = player.pos.sub(boss.pos).unit()
+
+            add([
+                pos(boss.pos),
+                move(dir, BULLET_SPEED),
+                rect(12, 12),
+                area(),
+                offscreen({ destroy: true }),
+                anchor("center"),
+                color(BLUE),
+                "bossBullet",
+            ])
+
+        }
+
+        await wait(2)
+        boss.enterState("move")
+
+    })
+
+    boss.onStateEnter("move", async () => {
+        await wait(2)
+        boss.enterState("idle")
+    })
+
+
+    boss.onStateUpdate("move", () => {
+        if (!player.exists()) return
+        const dir = player.pos.sub(boss.pos).unit()
+        boss.move(dir.scale(ENEMY_SPEED))
+    })
+
+    //#############################################################
+
     // ########################## BOSS PV ############################
 
     const bossPV = add([
 
-        pos(boss.pos.x,boss.pos.y-100),
-        text("--------------"),
+        rect(100, 10, { radius: 32 }),
+            pos(boss.pos.x,boss.pos.y+100),
+            color(255, 0,0),
+            anchor("left"),
+            // fixed(),
+            z(2),
+            outline(1),
         {
-            value: 100,
+            value:200
         }
     ])
 
+    const bossPvOutline = add([
+
+        rect(100, 12, { radius: 32 }),
+        pos(boss.pos.x,boss.pos.y+100),
+        color(0,0,0),
+        anchor("left"),
+        // fixed(),
+        z(1),
+        outline(1),
+    ])
+    //
     onUpdate(()=>{
         bossPV.pos = vec2(boss.pos.x,boss.pos.y-100)
+        bossPvOutline.pos = vec2(boss.pos.x,boss.pos.y-100)
+        if (bossPV.width <= 0){
+            boss.destroy()
+            bossPV.destroy()
+            bossPvOutline.destroy()
+        }
     })
 
+    // const tint = add([
+    //     rect(width(), height()+50),
+    //     pos(-300,-300),
+    //     color(0,0,0),
+    //     opacity(0.1),
+    //     area(),
+    //     z(0),
+    //     anchor("topleft"),
+    // ])
+    //
+    //
+    // function toggleTint() {
+    //     if (tint.pos.y < 0) {
+    //         tint.pos = vec2(0,-50);
+    //
+    //     } else {
+    //
+    //         tint.pos = vec2(-300, -300);
+    //
+    //     }
+    // }
 
-    // ########################## Health ############################
+    boss.onCollide("playerBullet",()=>{
+        boss.hurt(20)
+        bossPV.width -= 10
+        console.log(boss.health)
+    })
+
+    // boss.onHurt(() => {
+    //     // const HitSound = play("HitDamage", {
+    //     //     loop: false,
+    //     //     paused: false,
+    //     //
+    //     // })
+    //     // bossHealthbar.set(boss.hp())
+    //     // shake(10)
+    //
+    //
+    //     if (boss.health() === 180) {
+    //         toggleTint();
+    //         tint.color = rgb(235, 60, 80); // Starting point
+    //     }
+    //     if (boss.hp() === 160) {
+    //         tint.color = rgb(235, 40, 60); // 20 units decrease in G and B channels
+    //     }
+    //     if (boss.hp() === 140) {
+    //         tint.color = rgb(155, 20, 40); // 20 units decrease in G and B channels
+    //         tint.opacity = 0.2
+    //     }
+    //     if (boss.hp() === 120) {
+    //         tint.color = rgb(155, 10, 30); // 20 units decrease in G and B channels
+    //     }
+    //     if (boss.hp() === 100) {
+    //         tint.color = rgb(135, 0, 20);   // 20 units decrease in Red channel
+    //         tint.opacity = 0.3
+    //     }
+    //     if (boss.hp() === 80) {
+    //         tint.color = rgb(115, 0, 20);   // 20 units decrease in Red channel
+    //     }
+    //     if (boss.hp() === 60) {
+    //         tint.color = rgb(95, 0, 20);   // 20 units decrease in Red channel
+    //         tint.opacity = 0.4
+    //     }
+    //     if (boss.hp() === 40) {
+    //         tint.color = rgb(75, 0, 20);   // 20 units decrease in Red channel
+    //     }
+    //     if (boss.hp() === 20) {
+    //         tint.color = rgb(55, 0, 20);   // Darkest red
+    //     }
+    //
+    // })
+
+    // const bossHealthbar = boss.add([
+    //     rect(30, 3, { radius: 32 }),
+    //     pos(boss.pos.x,boss.pos.y+100),
+    //     color(20, 200,0),
+    //     anchor("left"),
+    //     // fixed(),
+    //     z(2),
+    //     outline(1),
+    //     // {
+    //     //     max: PLAYER_HEALTH,
+    //     //     set(hp) {
+    //     //         this.width = 30 * hp / this.max
+    //     //     },
+    //     // },
+    //
+    // ])
+
+    // player.onUpdate(()=>{
+    //     bossHealthbar.pos = vec2(boss.pos.x,boss.pos.y+100)
+    // })
+    // const PlayerHealthbarGreyOutline = player.add([
+    //     rect(30, 3, { radius: 32 }),
+    //     pos(-16, -15),
+    //     color(200, 200, 200),
+    //     anchor("left"),
+    //     fixed(),
+    //     z(1),
+    //     outline(1),
+    //     {
+    //         max: PLAYER_HEALTH,
+    //         set(hp) {
+    //             this.width = 30 * hp / this.max
+    //         },
+    //     },
+    // ])
+
+
+
+
+// ########################## Health ############################
 
     const healthBar = add([
 

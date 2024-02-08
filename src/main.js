@@ -13,8 +13,8 @@ setGravity(600)
 // ############################ SOUND ##########################
 
 loadSound('boss2', 'sounds/Arcade_Boss_2.wav')
-loadSound("battery", "sounds/coin-flip-88793.mp3")
-loadSound('part1', 'sounds/Arcade_Partie_1.mp3')
+loadSound("battery", "sounds/coin-flip-88793.wav")
+loadSound('part1', 'sounds/Arcade_Partie_1.wav')
 
 // ########################### SPRITE ################################
 //

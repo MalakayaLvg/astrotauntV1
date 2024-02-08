@@ -8,7 +8,13 @@ kaboom({
 
 setBackground(Color.fromHex("#24323F"))
 setGravity(600)
-////////////////////////////
+
+
+// ############################ SOUND ##########################
+
+loadSound('boss2', 'sounds/Arcade_Boss_2.wav')
+loadSound("battery", "sounds/coin-flip-88793.mp3")
+loadSound('part1', 'sounds/Arcade_Partie_1.mp3')
 
 // ########################### SPRITE ################################
 //
@@ -610,6 +616,13 @@ scene('level1',()=> {
             })
 
     ]
+
+    // ####################### SOUND #########################"
+
+    play('part1',{
+        volume:0.3,
+        loop: true
+    })
 
     // ######################## PLAYER #########################
 

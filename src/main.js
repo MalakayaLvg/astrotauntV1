@@ -44,6 +44,11 @@ loadSprite("astro", "Q0FRlty.png", {
 loadSprite('bg-beginning', 'SutOjg4.png')
 loadSprite('bg-levels', 'sM0Q2AA.png')
 loadSprite('bg-death', 'fMJvDkf.png')
+loadSprite('bg-victory', 'cPcv8Uu.png')
+
+//trophé :
+loadSprite('trophee', 'mv1gFSA.png')
+loadSprite('blackhole', '8RJSXey.png') // trou noir
 // NATAN
 loadFont("upheavtt", "font/upheavtt.ttf")
 loadSprite('logo', 'MqUYiI6.png')
@@ -525,7 +530,7 @@ scene('level1',()=> {
                 '                                                   ',
                 '                                                   ',
                 '                                                   ',
-                '                                                   ',
+                '    °                                              ',
                 '                                                   ',
                 '                                                   ',
                 '                                                   ',
@@ -588,6 +593,7 @@ scene('level1',()=> {
                     "h": () => [sprite("shipbits", {frame:33}),scale(4.5)],
                     "i": () => [sprite("pit", {frame:34}),scale(4.5)],
                     "*": () => [sprite("pod", {frame:3}),scale(2.5), anchor("bot"), patrol(), offscreen({ hide: true }),  area(), "dangerous"],
+                    "°": () => [sprite('blackhole'), scale(0.10), area(), "victoire"],
                     "k": () => [sprite("messagebox", {frame:36}),scale(4.5)],
                     "l": () => [sprite("rocks", {frame:37}),scale(4.5)],
                     "m": () => [sprite("beam", {frame:38}),scale(4.5)],
@@ -949,6 +955,10 @@ scene('level1',()=> {
         score.text = "score: " + score.value
     })
 
+    onCollide("player", "victoire", () => {
+        go('victoire', { score: score.value });
+    })
+
 
 
     // ########################### SCORE #############################
@@ -1261,7 +1271,7 @@ scene('level2',()=> {
                 '                                                                                                                 ',
                 '                                                                                                                 ',
                 '                                                                                                                 ',
-                '                                                                                                                 ',
+                '                                                                                                             °   ',
                 '                                                                                                                 ',
                 '                                                                                                                 ',
                 '                                                                                                                 ',
@@ -1298,6 +1308,7 @@ scene('level2',()=> {
                     "h": () => [sprite("shipbits", {frame:33}),scale(1)],
                     "i": () => [sprite("pit", {frame:34}),scale(1)],
                     "*": () => [sprite("pod", {frame:3}),scale(2.5)],
+                    "°": () => [sprite('blackhole'), scale(0.10), area(), "victoire"],
                     "k": () => [sprite("messagebox", {frame:36}),scale(1)],
                     "l": () => [sprite("rocks", {frame:37}),scale(1)],
                     "m": () => [sprite("beam", {frame:38}),scale(1)],
@@ -1658,6 +1669,10 @@ scene('level2',()=> {
         score.text = "score: " + score.value
     })
 
+    onCollide("player", "victoire", () => {
+        go('victoire', { score: score.value });
+    })
+
 
     // ########################### SCORE #############################
 
@@ -1855,8 +1870,8 @@ scene('level3',()=> {
                 'fj         de$$ $$ab    ab     de         jf',
                 'fj      iii  $ $ $de    de  $$            jf',
                 'fj              ab        ab        *     jf',
-                'fj              de        de              jf',
-                'fj                                  iiiii jf',
+                'fj              de        de       iiiii  jf',
+                'fj                                        jf',
                 'fj                                        jf',
                 'fjbab                                  abajf',
                 'fjede         iiiii                    dedjf',
@@ -1985,7 +2000,7 @@ scene('level3',()=> {
                     "g": () => [sprite("map", {frame:139}),scale(1)],
                     "h": () => [sprite("map", {frame:153}),scale(1)],
                     "i": () => [sprite("map", {frame:154}),scale(1)],
-                    "j": () => [sprite("map", {frame:155}),scale(1)],
+                    "j": () => [sprite("map", {frame:155}),scale(1),z(1)],
                     "k": () => [sprite("map", {frame:156}),scale(1)],
                     "l": () => [sprite("map", {frame:157}),scale(1)],
                     "m": () => [sprite("map", {frame:158}),scale(1)],
@@ -2421,7 +2436,7 @@ scene('level3',()=> {
 
 
     boss.onStateEnter("idle", async () => {
-        await wait(0.5)
+        await wait(0.2)
         boss.enterState("attack")
     })
 
@@ -2436,12 +2451,11 @@ scene('level3',()=> {
             add([
                 pos(boss.pos),
                 move(dir, BULLET_SPEED),
-                rect(12, 12),
-                // sprite("explosion",{frame:7}),
+                circle(15),
                 area(),
                 offscreen({ destroy: true }),
                 anchor("center"),
-                color(BLUE),
+                color(RED),
                 "bossBullet",
             ])
 
@@ -2500,6 +2514,9 @@ scene('level3',()=> {
             boss.destroy()
             bossPV.destroy()
             bossPvOutline.destroy()
+
+            go('victoire', { score: score.value });
+
         }
     })
 
@@ -2644,6 +2661,59 @@ scene('lose',()=>{
         scale(3),
         pos(width()/2, height()/2)
     ])
+})
+
+// ######################### VICTOIRE ############################
+
+scene("victoire",({ score }) =>{
+    add([
+        sprite("bg-victory"),
+        scale(1)
+    ]),
+
+        add([
+            sprite("trophee"),
+            area(),
+            anchor("center"),
+            pos(center().x,200),
+            scale(1),
+        ])
+
+    add([
+        text('TU AS GAGNÉ !'),
+        area(),
+        anchor("center"),
+        pos(center().x, 400),
+        scale(2),
+    ])
+
+
+    add([
+        text('TAPER SUR [ ENTRER ] POUR REVENIR AU CHOIX DU NIVEAU !'),
+        area(),
+        anchor("center"),
+        pos(center().x, 700),
+        scale(1),
+    ])
+
+
+    add([
+        text('upheavtt'),
+        area(),
+        anchor("center"),
+        pos(center().x, 600),
+        outline(4),
+        text("Votre Score : " + score, {
+            size: 30,
+            opacity: 0.3
+        }),
+
+
+    ]);
+
+    onKeyRelease("enter", () => {
+        go("chooseLevel");
+    })
 })
 
 // #################### START ###############################

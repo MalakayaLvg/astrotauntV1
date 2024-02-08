@@ -416,7 +416,7 @@ scene('level1',()=> {
                     "o": () => [sprite("map", {frame:189}),scale(1), area(),body({isStatic:true}),"block" ],
                     "p": () => [sprite("map", {frame:190}),scale(1), area(),body({isStatic:true}),"block" ],
                     "_": () => [sprite("spike"),scale(1),area(),  "dangerous"],
-                    "$": () => [sprite("battery", {frame:1}),scale(2.5),area(), "battery"],
+                    "$": () => [sprite("battery", {frame:1}),scale(2.5), area(), "battery"],
                     "*": () => [sprite("pod", {frame:3}),scale(2.5), anchor("bot"), patrol(), offscreen({ hide: true }),  area(), "dangerous"],
                 },
             }),
@@ -943,6 +943,12 @@ scene('level1',()=> {
         destroy(pb)
     })
 
+    onCollide("player", "battery", (p, battery) => {
+        destroy(battery)
+        score.value += 10
+        score.text = "score: " + score.value
+    })
+
 
 
     // ########################### SCORE #############################
@@ -963,10 +969,31 @@ scene('level1',()=> {
     const timer = add([
         fixed(),
         text("0"),
-        pos(width()-400,20),
+        anchor("center"),
+        pos(center().x,20),
+        z(3),
         {
             value:0,
         },
+    ])
+
+    const panelTimer = add([
+        fixed(),
+        rect(60,40),
+        color(0,0,0),
+        anchor("center"),
+        pos(center().x,20),
+        z(2),
+    ])
+
+    const panelTimerBorder = add([
+        fixed(),
+        rect(60,40),
+        color(255,255,255),
+        anchor("center"),
+        pos(center().x,20),
+        z(1),
+        scale(1.1)
     ])
 
     loop(1,()=>{
@@ -982,11 +1009,13 @@ scene('level1',()=> {
 
         fixed(),
         text("❤️❤️❤️❤️❤️"),
-        pos(width() / 15, 20),
+        pos(50, 20),
+        z(3),
         {
             value: 100,
         }
     ])
+
 
     player.onCollide("dangerous", () => {
         player.hurt(20);
@@ -1097,31 +1126,31 @@ scene('level2',()=> {
                 'k   k   k   k               k       k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k',
                 'k   k   k   k               k       k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k   k',
                 'kkk kkk kkk k               k       k   k   k               k   k   kabababababababababababab   k   k   k   k   k',
-                'k   k                       k       k   k   k               k   k   kdedededededededededededeabababababab   k   k',
-                'k   k                       kcccc       k   k               k   k  ab                        dededededede   k   k',
-                'k kkk           iiiii       k   c       k   fffffff             k  de                                    abab   k',
-                'k cc                 i      k   c       k                       kabffffff                                dedecc k',
-                'kc  c                 i     k   ccccc   k                       kde                                         c  ck',
-                'k                     iiiiiik       c   k                                                                       k',
-                'k                                   cccck                ff                           ffff                      k',
-                'k                                       k                                                                       k',
+                'k   k           *        $$$k       k   k   k  $$$$         k   k   kdedededededededededededeabababababab   k   k',
+                'k   k      *          $$  $ kcccc       k   k $$$$$         k   k  ab$ $$                    dededededede   k   k',
+                'k kkk           iiiii $$ $$$k   c       k   fffffff             k  de$$ $ *                              abab   k',
+                'k cc                 i $$$$ k   c       k                       kabffffff                                dedecc k',
+                'kc  cff               i$$  $k   ccccc   k                       kde                          $$$            c  ck',
+                'k                     iiiiiik       c   k     *                               *       $$$$                      k',
+                'k                                   cccck                ff                           ffff         $$           k',
+                'k $$$                                   k                      $$                                               k',
                 'kiiii     ccc       fffff               kjj                   jjj                                   ccc   iiiiiik',
-                'k    i    ckc                           abk                   kab          cccccccccccc             k c         k',
-                'k     i   c  c                          dekjj               jjkde         c            c           c  c         k',
-                'k     i   c   c                                                          c              ccc       c   c         k',
-                'k    i    ckk kc              ffff                fff                   c                        ck kkc       ffk',
-                'kiiii     c   c                                                                                   c   c         k',
+                'k    i    ckc                           abk__               $$kab          cccccccccccc             k c     $$$ k',
+                'k     i   c  c                          dekjj               jjkde         c            c           c  c     $ $$k',
+                'k     i   c   c                                                          c  $ $$  $$$   ccc       c   c       $$k',
+                'k    i    ckk kc              ffff                fff    *              c    $  $$               ck kkc       ffk',
+                'kiiii     c   c    $$$                                                      *   $$$$              c   c         k',
                 'k cc      c  c     ff                                                       ffffffff       ccc     c  c         k',
-                'kc  c     ckc     f                        abababab   abababab                            c         k c fff     k',
-                'k         ccc    f                     iiiidededede  fdedededeiiii                       c          ccc         k',
+                'kc  c     ckc     f                     ___abababab   abababab                            c         k c fff     k',
+                'k         ccc    f                     iiiidededede  fdedededeiiii      _________________c          ccc         k',
                 'k                                      abab k   k       k   k abab      ccccccccccccccccc                       k',
-                'kccccc                               iidede k   k       k   k dedeii                                       ccccck',
-                'k   kc                               ab k   k   k       k   k   k ab                                       ck   k',
-                'k   kc                            iiide k   k   kf      k   k   k deiii                                    ck   k',
-                'kkk kcccccccc                     abk   k   k   k       k   k   k   kab       fff                   cccccccck   k',
+                'kccccc           *                   iidede k   k$$$$$$$k   k dedeii                                       ccccck',
+                'k   kc                               ab k   k   k$$$$$$$k   k   k ab__                                     ck   k',
+                'k   kc     $$       fff           iiide k   k   kf$$$$$$k   k   k deiii             *                 $$$  ck   k',
+                'kkk kcccccccc                   __abk   k   k   k $$$$$$k   k   k   kab       fff                   cccccccck   k',
                 'k   kkk kkk k                   iidek   k   k   k     ffk   k   k   kdeii                           k   k   k   k',
-                'k   k   k   k                  iab  k   k   k   k       k   k   k   k  abi                    ff    k   k   k   k',
-                'k kkk   k   kcccccccccccccccciiide  k   k   k   k       k   k   k   k  deiii         ccccccccccccccck   k   k   k',
+                'k   k   k   k________________  iab  k   k   k   k       k   k   k   k  abi           _________ff    k   k   k   k',
+                'k kkk   k   kcccccccccccccccciiide  k   k   k   k_______k   k   k   k  deiii_________ccccccccccccccck   k   k   k',
                 'kccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccckccck',
 //////////////////////////////////////////////////////////////////////|
 
@@ -1149,6 +1178,10 @@ scene('level2',()=> {
                     "n": () => [sprite("map", {frame:208}),scale(1), area(),body({isStatic:true}), "block" ],
                     "o": () => [sprite("map", {frame:209}),scale(1), area(),body({isStatic:true}), "block" ],
                     "p": () => [sprite("map", {frame:210}),scale(1), area(),body({isStatic:true}), "block" ],
+
+                    "_": () => [sprite("spike"),scale(1),area(),  "dangerous"],
+                    "$": () => [sprite("battery", {frame:1}),scale(2.5), area(), "battery"],
+                    "*": () => [sprite("pod", {frame:3}),scale(2.5), anchor("bot"), patrol(), offscreen({ hide: true }),  area(), "dangerous"],
                 },
             }),
         addLevel(
@@ -1619,6 +1652,11 @@ scene('level2',()=> {
         destroy(pb)
     })
 
+    onCollide("player", "battery", (p, battery) => {
+        destroy(battery)
+        score.value += 10
+        score.text = "score: " + score.value
+    })
 
 
     // ########################### SCORE #############################
@@ -1639,10 +1677,31 @@ scene('level2',()=> {
     const timer = add([
         fixed(),
         text("0"),
-        pos(width()-400,20),
+        anchor("center"),
+        pos(center().x,20),
+        z(3),
         {
             value:0,
         },
+    ])
+
+    const panelTimer = add([
+        fixed(),
+        rect(60,40),
+        color(0,0,0),
+        anchor("center"),
+        pos(center().x,20),
+        z(2),
+    ])
+
+    const panelTimerBorder = add([
+        fixed(),
+        rect(60,40),
+        color(255,255,255),
+        anchor("center"),
+        pos(center().x,20),
+        z(1),
+        scale(1.1)
     ])
 
     loop(1,()=>{
@@ -1786,43 +1845,43 @@ scene('level3',()=> {
             [
                 'ffffffffffffffffffffffffffffffffffffffffffff',
                 'fabjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjabf',
-                'fde              ababababab              def',
-                'fj               dedededede               jf',
-                'fj             ab          ab             jf',
-                'fj             de          de             jf',
-                'fj           ab              ab           jf',
-                'fj           de     abab     de           jf',
-                'fj         ab       dede       ab         jf',
-                'fj         de     ab    ab     de         jf',
-                'fj                de    de                jf',
-                'fj              ab        ab              jf',
+                'fde   $$$ $  $$  ababababab              def',
+                'fj   *  $  $$$   dedededede       *       jf',
+                'fj  $$$$  $$   ab $$$ $$ $ ab             jf',
+                'fj   iiiii     de  $$ $$$ $de             jf',
+                'fj           ab     $*$$ $$$ ab           jf',
+                'fj           de $$$ abab   $ de           jf',
+                'fj         ab  $  $ dede  $$$$ ab         jf',
+                'fj         de$$ $$ab    ab     de         jf',
+                'fj      iii  $ $ $de    de  $$            jf',
+                'fj              ab        ab        *     jf',
                 'fj              de        de              jf',
-                'fj                                        jf',
+                'fj                                  iiiii jf',
                 'fj                                        jf',
                 'fjbab                                  abajf',
-                'fjede                                  dedjf',
+                'fjede         iiiii                    dedjf',
                 'fj   ab                              ab   jf',
                 'fj   de                              de   jf',
                 'fj                                        jf',
+                'fj    *                      iiii         jf',
                 'fj                                        jf',
                 'fj                                        jf',
+                'fj          iiiiiii                       jf',
                 'fj                                        jf',
                 'fj                                        jf',
+                'fj                              *         jf',
+                'fj                                        jf',
+                'fjiiii              ii                 iiijf',
+                'fj                                   iiiiijf',
+                'fj                                  iiiiiijf',
+                'fj                                   iiiiijf',
+                'fj      *                              iiijf',
+                'fj       iiiii               iiiiii       jf',
                 'fj                                        jf',
                 'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
-                'fj                                        jf',
+                'fj                                      * jf',
                 'fj         abkabkabkababkabkabkab         jf',
-                'fj        kdekdekdekdedekdekdekdek        jf',
+                'fj        kdekdekdekdedekdekdekdek     iiijf',
                 'fj      abk  k  k  k    k  k  k  kab      jf',
                 'fj     kdek  k  k  k    k  k  k  kdek     jf',
                 'fj     k  k  k  k  k    k  k  k  k  k     jf',
@@ -1839,22 +1898,24 @@ scene('level3',()=> {
 
                     //////////////// PLATEFORM VERT ///////////////////////
 
-                    "a": () => [sprite("map", {frame:153}),scale(1), area(),body({isStatic:true}) ],
-                    "b": () => [sprite("map", {frame:154}),scale(1), area(),body({isStatic:true}) ],
+                    "a": () => [sprite("map", {frame:153}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "b": () => [sprite("map", {frame:154}),scale(1), area(),body({isStatic:true}),"block" ],
                     "c": () => [sprite("map", {frame:172}),scale(1), area(),body({isStatic:true}),"block" ],
-                    "d": () => [sprite("map", {frame:173}),scale(1), area(),body({isStatic:true}) ],
-                    "e": () => [sprite("map", {frame:174}),scale(1), area(),body({isStatic:true}) ],
+                    "d": () => [sprite("map", {frame:173}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "e": () => [sprite("map", {frame:174}),scale(1), area(),body({isStatic:true}),"block" ],
                     "f": () => [sprite("map", {frame:220}),scale(1), area(),body({isStatic:true}),"block" ],
-                    "g": () => [sprite("map", {frame:221}),scale(1), area(),body({isStatic:true}) ],
-                    "h": () => [sprite("map", {frame:222}),scale(1), area(),body({isStatic:true}) ],
-                    "i": () => [sprite("map", {frame:223}),scale(1), area(),body({isStatic:true}) ],
-                    "j": () => [sprite("map", {frame:224}),scale(1), area(),body({isStatic:true}) ],
-                    "k": () => [sprite("map", {frame:225}),scale(1), area(),body({isStatic:true}) ],
-                    "l": () => [sprite("map", {frame:226}),scale(1), area(),body({isStatic:true}) ],
-                    "m": () => [sprite("map", {frame:227}),scale(1), area(),body({isStatic:true}) ],
-                    "n": () => [sprite("map", {frame:228}),scale(1), area(),body({isStatic:true}) ],
-                    "o": () => [sprite("map", {frame:229}),scale(1), area(),body({isStatic:true}) ],
-                    "p": () => [sprite("map", {frame:230}),scale(1), area(),body({isStatic:true}) ],
+                    "g": () => [sprite("map", {frame:221}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "h": () => [sprite("map", {frame:222}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "i": () => [sprite("map", {frame:223}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "j": () => [sprite("map", {frame:224}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "k": () => [sprite("map", {frame:225}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "l": () => [sprite("map", {frame:226}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "m": () => [sprite("map", {frame:227}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "n": () => [sprite("map", {frame:228}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "o": () => [sprite("map", {frame:229}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "p": () => [sprite("map", {frame:230}),scale(1), area(),body({isStatic:true}),"block" ],
+                    "$": () => [sprite("battery", {frame:1}),scale(2.5), area(), "battery"],
+                    "*": () => [sprite("pod", {frame:3}),scale(2.5), anchor("bot"), patrol(), offscreen({ hide: true }),  area(), "dangerous"],
                 },
             }),
         addLevel(
@@ -2284,6 +2345,11 @@ scene('level3',()=> {
         destroy(pb)
     })
 
+    onCollide("player", "battery", (p, battery) => {
+        destroy(battery)
+        score.value += 10
+        score.text = "score: " + score.value
+    })
 
 
     // ########################### SCORE #############################
@@ -2292,6 +2358,7 @@ scene('level3',()=> {
         fixed(),
         text("score: 0"),
         pos(width()-200,20),
+        anchor("center"),
         {
             value:0,
         }
@@ -2304,10 +2371,31 @@ scene('level3',()=> {
     const timer = add([
         fixed(),
         text("0"),
-        pos(width()-400,20),
+        anchor("center"),
+        pos(center().x,20),
+        z(3),
         {
             value:0,
         },
+    ])
+
+    const panelTimer = add([
+        fixed(),
+        rect(60,40),
+        color(0,0,0),
+        anchor("center"),
+        pos(center().x,20),
+        z(2),
+    ])
+
+    const panelTimerBorder = add([
+        fixed(),
+        rect(60,40),
+        color(255,255,255),
+        anchor("center"),
+        pos(center().x,20),
+        z(1),
+        scale(1.1)
     ])
 
     loop(1,()=>{
@@ -2349,6 +2437,7 @@ scene('level3',()=> {
                 pos(boss.pos),
                 move(dir, BULLET_SPEED),
                 rect(12, 12),
+                // sprite("explosion",{frame:7}),
                 area(),
                 offscreen({ destroy: true }),
                 anchor("center"),
@@ -2381,8 +2470,8 @@ scene('level3',()=> {
 
     const bossPV = add([
 
-        rect(100, 10, { radius: 32 }),
-            pos(boss.pos.x,boss.pos.y+100),
+        rect(200, 10, { radius: 32 }),
+            pos(boss.pos.x-100,boss.pos.y+100),
             color(255, 0,0),
             anchor("left"),
             // fixed(),
@@ -2395,8 +2484,8 @@ scene('level3',()=> {
 
     const bossPvOutline = add([
 
-        rect(100, 12, { radius: 32 }),
-        pos(boss.pos.x,boss.pos.y+100),
+        rect(200, 12, { radius: 32 }),
+        pos(boss.pos.x-100,boss.pos.y+100),
         color(0,0,0),
         anchor("left"),
         // fixed(),
@@ -2405,8 +2494,8 @@ scene('level3',()=> {
     ])
     //
     onUpdate(()=>{
-        bossPV.pos = vec2(boss.pos.x,boss.pos.y-100)
-        bossPvOutline.pos = vec2(boss.pos.x,boss.pos.y-100)
+        bossPV.pos = vec2(boss.pos.x-100,boss.pos.y-100)
+        bossPvOutline.pos = vec2(boss.pos.x-100,boss.pos.y-100)
         if (bossPV.width <= 0){
             boss.destroy()
             bossPV.destroy()
@@ -2414,115 +2503,9 @@ scene('level3',()=> {
         }
     })
 
-    // const tint = add([
-    //     rect(width(), height()+50),
-    //     pos(-300,-300),
-    //     color(0,0,0),
-    //     opacity(0.1),
-    //     area(),
-    //     z(0),
-    //     anchor("topleft"),
-    // ])
-    //
-    //
-    // function toggleTint() {
-    //     if (tint.pos.y < 0) {
-    //         tint.pos = vec2(0,-50);
-    //
-    //     } else {
-    //
-    //         tint.pos = vec2(-300, -300);
-    //
-    //     }
-    // }
-
     boss.onCollide("playerBullet",()=>{
-        boss.hurt(20)
         bossPV.width -= 10
-        console.log(boss.health)
     })
-
-    // boss.onHurt(() => {
-    //     // const HitSound = play("HitDamage", {
-    //     //     loop: false,
-    //     //     paused: false,
-    //     //
-    //     // })
-    //     // bossHealthbar.set(boss.hp())
-    //     // shake(10)
-    //
-    //
-    //     if (boss.health() === 180) {
-    //         toggleTint();
-    //         tint.color = rgb(235, 60, 80); // Starting point
-    //     }
-    //     if (boss.hp() === 160) {
-    //         tint.color = rgb(235, 40, 60); // 20 units decrease in G and B channels
-    //     }
-    //     if (boss.hp() === 140) {
-    //         tint.color = rgb(155, 20, 40); // 20 units decrease in G and B channels
-    //         tint.opacity = 0.2
-    //     }
-    //     if (boss.hp() === 120) {
-    //         tint.color = rgb(155, 10, 30); // 20 units decrease in G and B channels
-    //     }
-    //     if (boss.hp() === 100) {
-    //         tint.color = rgb(135, 0, 20);   // 20 units decrease in Red channel
-    //         tint.opacity = 0.3
-    //     }
-    //     if (boss.hp() === 80) {
-    //         tint.color = rgb(115, 0, 20);   // 20 units decrease in Red channel
-    //     }
-    //     if (boss.hp() === 60) {
-    //         tint.color = rgb(95, 0, 20);   // 20 units decrease in Red channel
-    //         tint.opacity = 0.4
-    //     }
-    //     if (boss.hp() === 40) {
-    //         tint.color = rgb(75, 0, 20);   // 20 units decrease in Red channel
-    //     }
-    //     if (boss.hp() === 20) {
-    //         tint.color = rgb(55, 0, 20);   // Darkest red
-    //     }
-    //
-    // })
-
-    // const bossHealthbar = boss.add([
-    //     rect(30, 3, { radius: 32 }),
-    //     pos(boss.pos.x,boss.pos.y+100),
-    //     color(20, 200,0),
-    //     anchor("left"),
-    //     // fixed(),
-    //     z(2),
-    //     outline(1),
-    //     // {
-    //     //     max: PLAYER_HEALTH,
-    //     //     set(hp) {
-    //     //         this.width = 30 * hp / this.max
-    //     //     },
-    //     // },
-    //
-    // ])
-
-    // player.onUpdate(()=>{
-    //     bossHealthbar.pos = vec2(boss.pos.x,boss.pos.y+100)
-    // })
-    // const PlayerHealthbarGreyOutline = player.add([
-    //     rect(30, 3, { radius: 32 }),
-    //     pos(-16, -15),
-    //     color(200, 200, 200),
-    //     anchor("left"),
-    //     fixed(),
-    //     z(1),
-    //     outline(1),
-    //     {
-    //         max: PLAYER_HEALTH,
-    //         set(hp) {
-    //             this.width = 30 * hp / this.max
-    //         },
-    //     },
-    // ])
-
-
 
 
 // ########################## Health ############################
@@ -2537,7 +2520,7 @@ scene('level3',()=> {
         }
     ])
 
-    player.onCollide("dangerous", () => {
+    player.onCollide("bossBullet", () => {
         player.hurt(20);
         healthBar.value -= 20;
         updateHealthBar();

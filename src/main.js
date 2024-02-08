@@ -1937,10 +1937,11 @@ scene('level3',()=> {
     // ######################## PLAYER #########################
 
     const SPEED = 250
-    let JUMP_FORCE = 350
-    const ENEMY_SPEED = 60
-    const BULLET_SPEED = 200
+    const JUMP_FORCE = 350
+    const ENEMY_SPEED = 100
+    const BULLET_SPEED = 500
     let PLAYER_HEALTH = 100
+    let gunDestroyed = false
 
     const player = add([
         sprite('astro'),
@@ -2253,6 +2254,60 @@ scene('level3',()=> {
         };
     }
 
+    // ############################### BOSS ##################################
+
+    const boss = add([
+        sprite("ghosty"),
+        scale(4),
+        pos(100,1400),
+        area(),
+        body(),
+        anchor("center"),
+        state("move", [ "idle", "attack", "move" ]),
+    ])
+
+
+    boss.onStateEnter("idle", async () => {
+        await wait(0.5)
+        boss.enterState("attack")
+    })
+
+    boss.onStateEnter("attack", async () => {
+
+        // Don't do anything if player doesn't exist anymore
+        if (player.exists() && boss.exists()) {
+
+            const dir = player.pos.sub(boss.pos).unit()
+
+            add([
+                pos(boss.pos),
+                move(dir, BULLET_SPEED),
+                rect(12, 12),
+                area(),
+                offscreen({ destroy: true }),
+                anchor("center"),
+                color(BLUE),
+                "bossBullet",
+            ])
+
+        }
+
+        await wait(2)
+        boss.enterState("move")
+
+    })
+
+    boss.onStateEnter("move", async () => {
+        await wait(2)
+        boss.enterState("idle")
+    })
+
+
+    boss.onStateUpdate("move", () => {
+        if (!player.exists()) return
+        const dir = player.pos.sub(boss.pos).unit()
+        boss.move(dir.scale(ENEMY_SPEED))
+    })
 
     //#############################################################
 

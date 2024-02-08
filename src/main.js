@@ -1153,7 +1153,6 @@ scene('level1',()=> {
     const ENEMY_SPEED = 60
     const BULLET_SPEED = 200
     let PLAYER_HEALTH = 100
-    let gunDestroyed = false
 
     const player = add([
         sprite('astro'),
@@ -1466,110 +1465,30 @@ scene('level1',()=> {
         };
     }
 
-    const enemy = add([
-        sprite("ghosty"),
-        scale(1.5),
-        pos(450,50),
-        area(),
-        body(),
-        anchor("center"),
-        state("move", [ "idle", "attack", "move" ]),
-    ])
-
-
-    enemy.onStateEnter("idle", async () => {
-        await wait(0.5)
-        enemy.enterState("attack")
-    })
-
-    enemy.onStateEnter("attack", async () => {
-
-        // Don't do anything if player doesn't exist anymore
-        if (player.exists() && enemy.exists()) {
-
-            const dir = player.pos.sub(enemy.pos).unit()
-
-            add([
-                pos(enemy.pos),
-                move(dir, BULLET_SPEED),
-                rect(12, 12),
-                area(),
-                offscreen({ destroy: true }),
-                anchor("center"),
-                color(BLUE),
-                "enemyBullet",
-            ])
-
-        }
-
-        await wait(2)
-        enemy.enterState("move")
-
-    })
-
-    enemy.onStateEnter("move", async () => {
-        await wait(2)
-        enemy.enterState("idle")
-    })
-
-
-    enemy.onStateUpdate("move", () => {
-        if (!player.exists()) return
-        const dir = player.pos.sub(enemy.pos).unit()
-        enemy.move(dir.scale(ENEMY_SPEED))
-    })
 
     //#############################################################
 
     // ---------------- COLLIDE -----------------
 
-    player.onCollide("enemyBullet", (bullet) => {
-        destroy(bullet)
-        player.hurt(20)
-        healthBar.value -= 20
-        healthBar.text = healthBar.value + "pv"
-        console.log(healthBar.value)
-        if (healthBar.value <= 0)
-        {
-            go('lose')
-            wait(2,()=>{
-                go('scene')
-            })
-        }
-    })
 
-    enemy.onCollide("playerBullet", (bullet) => {
-        destroy(enemy)
-        console.log("touch enemy")
-        shake(200)
-    })
 
-    // player.onCollide("dangerous", () => {
-    //     player.hurt(20)
-    //     healthBar.value -= 20
-    //     healthBar.text = healthBar.value + "pv"
-    //     console.log(healthBar.value)
-    //     if (healthBar.value <= 0)
-    //     {
-    //         go('lose')
-    //         wait(2,()=>{
-    //             go('scene')
-    //         })
-    //     }
-    // })
 
     onCollide("playerBullet", "dangerous", (p, d) => {
         destroy(d)
-        shake(10)
+        score.value += 20
+        score.text = "score: " + score.value;
     })
 
     onCollide("playerBullet","block",(pb,b)=>{
         destroy(pb)
     })
 
+
+
     // ########################### SCORE #############################
 
     const score = add([
+        fixed(),
         text("score: 0"),
         pos(width()-200,20),
         {

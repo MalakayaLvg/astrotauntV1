@@ -13,8 +13,16 @@ setGravity(600)
 // ############################ SOUND ##########################
 
 loadSound('boss2', 'sounds/Arcade_Boss_2.wav')
-loadSound("battery", "sounds/coin-flip-88793.wav")
+loadSound("battery", "sounds/coin-flip-88793.mp3")
 loadSound('part1', 'sounds/Arcade_Partie_1.wav')
+loadSound('part2', 'sounds/Arcade_Partie_2.wav')
+loadSound('boss1', 'sounds/Arcade_Boss_1.wav')
+loadSound('loose', 'sounds/LOOSE_Game.mp3')
+loadSound('reward', 'sounds/REWARD.mp3')
+loadSound('menu', 'sounds/MENU_select.mp3')
+
+
+
 
 // ########################### SPRITE ################################
 //
@@ -204,6 +212,10 @@ scene("chooseLevel", () => {
             btn.color = hsl2rgb((t / 10) % 1, 0.6, 0.7)
             btn.scale = vec2(1.2)
             setCursor("pointer")
+        })
+
+        btn.onHover(() => {
+            play("menu")
         })
 
         btn.onHoverEnd(() => {
@@ -619,7 +631,7 @@ scene('level1',()=> {
 
     // ####################### SOUND #########################"
 
-    play('part1',{
+    const music1 = play('part1',{
         volume:0.3,
         loop: true
     })
@@ -966,9 +978,11 @@ scene('level1',()=> {
         destroy(battery)
         score.value += 10
         score.text = "score: " + score.value
+        play("battery")
     })
 
     onCollide("player", "victoire", () => {
+        music1.paused = true
         go('victoire', { score: score.value });
     })
 
@@ -1045,6 +1059,7 @@ scene('level1',()=> {
         healthBar.value -= 20;
         updateHealthBar();
         if (healthBar.value <= 0) {
+            music1.paused = true
             go('lose');
             wait(2, () => {
                 go('scene');
@@ -1337,6 +1352,13 @@ scene('level2',()=> {
                 },
             })
     ]
+
+    // ######################## SOUND ###########################
+
+    const music2 = play("part2",{
+        volume:0.3,
+        loop: true,
+    })
 
     // ######################## PLAYER #########################
 
@@ -1680,9 +1702,11 @@ scene('level2',()=> {
         destroy(battery)
         score.value += 10
         score.text = "score: " + score.value
+        play("battery")
     })
 
     onCollide("player", "victoire", () => {
+        music2.paused = true
         go('victoire', { score: score.value });
     })
 
@@ -1757,6 +1781,7 @@ scene('level2',()=> {
         updateHealthBar();
         if (healthBar.value <= 0) {
             go('lose');
+            music2.paused = true
             wait(2, () => {
                 go('scene');
             });
@@ -1789,13 +1814,13 @@ scene('level3',()=> {
                 '                                            ',
                 '                                            ',
                 '                                            ',
-                '                 VVVVVVVVVV                 ',
-                '                 VVVVVVVVVV                 ',
-                '               VVVVV    VVVVV               ',
-                '               VVVVV    VVVVV               ',
-                '             VVVVVVV    VVVVVVV             ',
-                '             VVVVV        VVVVV             ',
-                '             VVVVV        VVVVV             ',
+                '                 vvvvvvvvvv                 ',
+                '                 vvvvvvvvvv                 ',
+                '               vvvvv    vvvvv               ',
+                '               vvvvv    vvvvv               ',
+                '             vvvvvvv    vvvvvvv             ',
+                '             vvvvv        vvvvv             ',
+                '             vvvvv        vvvvv             ',
                 '             vvv            vvv             ',
                 '             vvv            vvv             ',
                 '             vvv            vvv             ',
@@ -2029,6 +2054,13 @@ scene('level3',()=> {
                 },
             })
     ]
+
+    // ###################### SOUND ##########################
+
+    const music3 = play("boss1",{
+        volume:0.3,
+        loop: true,
+    })
 
     // ######################## PLAYER #########################
 
@@ -2377,6 +2409,7 @@ scene('level3',()=> {
         destroy(battery)
         score.value += 10
         score.text = "score: " + score.value
+        play("battery")
     })
 
 
@@ -2527,7 +2560,7 @@ scene('level3',()=> {
             boss.destroy()
             bossPV.destroy()
             bossPvOutline.destroy()
-
+            music3.paused = true
             go('victoire', { score: score.value });
 
         }
@@ -2555,6 +2588,7 @@ scene('level3',()=> {
         healthBar.value -= 20;
         updateHealthBar();
         if (healthBar.value <= 0) {
+            music3.paused = true
             go('lose');
             wait(2, () => {
                 go('scene');
@@ -2582,6 +2616,8 @@ scene('level3',()=> {
 
 // ############################ SCENE LOSE ################################"
 scene('lose',()=>{
+
+    play("loose")
 
     function addButton(txt, p, f) {
 
@@ -2659,14 +2695,18 @@ scene('lose',()=>{
             btn.color = rgb()
         })
 
+        btn.onHover(() => {
+            play("menu")
+        })
+
         btn.onClick(f)
 
         return btn
 
     }
 
-    addButton("Menu",vec2(center().x-150,400),()=> go("chooseLevel"))
-    addButton("Accueil",vec2(center().x+150,400),()=> go("menu"))
+    addButton("Menu",vec2(center().x-150,500),()=> go("chooseLevel"))
+    addButton("Accueil",vec2(center().x+150,500),()=> go("menu"))
 
     add([
         text('Tu as perdu !'),
@@ -2679,6 +2719,7 @@ scene('lose',()=>{
 // ######################### VICTOIRE ############################
 
 scene("victoire",({ score }) =>{
+    play("reward")
     add([
         sprite("bg-victory"),
         scale(1)

@@ -127,7 +127,7 @@ scene("menu",()=>{
 
     // onGamepadDisconnect(()=>{
         const textGamepadDisconnected = add([
-            text("Gamepad not found", {
+            text("Manette déconnectée", {
                 width: width() - 30,
                 align: "center",
                 size: 25,
@@ -138,7 +138,7 @@ scene("menu",()=>{
     // })
     onGamepadConnect(()=>{
         add([
-            text("Gamepad Connected", {
+            text("Manette connecté", {
                 width: width() - 180,
                 align: "center",
             }),
@@ -205,9 +205,9 @@ scene("chooseLevel", () => {
 
     }
 
-    addButton("Level 1",vec2(center().x,center().y-100),()=> go("level1"))
-    addButton("Level 2",vec2(center().x,center().y),()=> go("level2"))
-    addButton("Level 3",vec2(center().x,center().y+100),()=> go("level3"))
+    addButton("Niveau 1",vec2(center().x,center().y-100),()=> go("level1"))
+    addButton("Niveau 2",vec2(center().x,center().y),()=> go("level2"))
+    addButton("Niveau 3",vec2(center().x,center().y+100),()=> go("level3"))
 
     add([
         text("Choisissez un niveau !",  {
@@ -2260,10 +2260,11 @@ scene('level3',()=> {
         sprite("ghosty"),
         scale(4),
         pos(100,1400),
+        health(200),
         area(),
-        body(),
         anchor("center"),
         state("move", [ "idle", "attack", "move" ]),
+        "boss"
     ])
 
 
@@ -2314,15 +2315,24 @@ scene('level3',()=> {
     // ---------------- COLLIDE -----------------
 
 
+    onCollide("playerBullet", "boss", (p, d) => {
+        boss.hurt(10)
+        destroy(p)
+        score.value += 20
+        score.text = "score: " + score.value;
+    })
 
-
-    onCollide("playerBullet", "dangerous", (p, d) => {
-        destroy(d)
+    onCollide("bossBullet", "player", (p, d) => {
+        player.hurt(10)
         score.value += 20
         score.text = "score: " + score.value;
     })
 
     onCollide("playerBullet","block",(pb,b)=>{
+        destroy(pb)
+    })
+
+    onCollide("bossBullet","block",(pb,b)=>{
         destroy(pb)
     })
 
@@ -2358,6 +2368,22 @@ scene('level3',()=> {
     })
 
     // ###############################################################
+
+    // ########################## BOSS PV ############################
+
+    const bossPV = add([
+
+        pos(boss.pos.x,boss.pos.y-100),
+        text("--------------"),
+        {
+            value: 100,
+        }
+    ])
+
+    onUpdate(()=>{
+        bossPV.pos = vec2(boss.pos.x,boss.pos.y-100)
+    })
+
 
     // ########################## Health ############################
 
@@ -2486,11 +2512,11 @@ scene('lose',()=>{
 
     }
 
-    addButton("Chose Level",vec2(center().x-150,400),()=> go("chooseLevel"))
-    addButton("Menu",vec2(center().x+150,400),()=> go("menu"))
+    addButton("Menu",vec2(center().x-150,400),()=> go("chooseLevel"))
+    addButton("Accueil",vec2(center().x+150,400),()=> go("menu"))
 
     add([
-        text('you lose'),
+        text('Tu as perdu !'),
         anchor('center'),
         scale(3),
         pos(width()/2, height()/2)
